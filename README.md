@@ -12,7 +12,7 @@ TASK:
 
 
 CHANGELOG:
-27.8 - mys - pridany package mouse do test. V triede Mouse Component je vyriesene eventy pre mys (David) 
+27.8 - mys - pridany package mouse do test. V triede Mouse Component su vyriesene eventy pre mys (David) 
 
 
 
