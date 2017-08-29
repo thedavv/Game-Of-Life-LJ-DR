@@ -13,3 +13,6 @@ public class GridDemo {
 		});
 	}
 }
+// NOTES!!!
+// x,y koordinaty na LifeSquare su ich koordinaty na obrazovke!
+// ich x,y koordinaty v gride su ich indexy v ArrayListoch

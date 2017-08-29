@@ -74,9 +74,9 @@ public class LifeSquare extends Rectangle {
 	@Override
 	public String toString() {
 		if (isAlive) {
-			return "LifeSquare [x=" + this.x + " y=" + this.y + "] is Active";
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Active";
 		} else {
-			return "LifeSquare [x=" + this.x + " y=" + this.y + "] is Inactive";
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Inactive";
 		}
 	}
 }

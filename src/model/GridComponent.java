@@ -39,7 +39,7 @@ public class GridComponent extends JComponent {
 		for (int x = 0; x < 10; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < 10; y++) {
-				sqGrid.get(x).add(new LifeSquare(x, y, sideLength, sideLength));
+				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, sideLength, sideLength));
 			}
 		}
 
@@ -66,7 +66,7 @@ public class GridComponent extends JComponent {
 		for (int x = 0; x < sizeX; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < sizeY; y++) {
-				sqGrid.get(x).add(new LifeSquare(x, y, sideLength, sideLength));
+				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, sideLength, sideLength));
 			}
 		}
 
@@ -138,7 +138,7 @@ public class GridComponent extends JComponent {
 				try {
 					if (i == 0 & j == 0) {
 						// do nothing (e.i. the square would equal the lsq)
-					} else if (this.sqGrid.get(lsq.x + i).get(lsq.y + j).isAlive()) {
+					} else if (this.sqGrid.get((lsq.x) + i).get((lsq.y) + j).isAlive()) {
 						count++;
 					}
 				} catch (IndexOutOfBoundsException e) {
