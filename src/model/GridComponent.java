@@ -199,6 +199,7 @@ public class GridComponent extends JComponent {
 	 * @param lsq
 	 *            is the curent LifeSquare
 	 */
+	@Deprecated
 	public void addActiveSquareOnGrid(LifeSquare lsq) {
 		double x = lsq.getX();
 		// TODO remove tests
@@ -216,6 +217,7 @@ public class GridComponent extends JComponent {
 	 * @param lsq
 	 *            is the curent LifeSquare
 	 */
+	@Deprecated
 	public void removeActiveSquareOnrid(LifeSquare lsq) {
 		if (lsq == currentFilledSquare)
 			currentFilledSquare = null;
@@ -231,12 +233,14 @@ public class GridComponent extends JComponent {
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
 				// TODO remove test
+				// TODO remove active if not needed
 				currentSquare.setActivity(false);
 				System.out.println(
 						"changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
-				System.out.println(
-						"removed activeSqs rectangle at point " + e.getPoint() + " " + currentSquare.toString());
-				removeActiveSquareOnrid(currentSquare);
+				// vSystem.out.println(
+				// "removed activeSqs rectangle at point " + e.getPoint() + " "
+				// + currentSquare.toString());
+				// removeActiveSquareOnrid(currentSquare);
 				repaint();
 			}
 		}
@@ -248,12 +252,14 @@ public class GridComponent extends JComponent {
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && !currentSquare.isAlive()) {
 				// TODO remove test
+				// TODO remove remove if not needed
 				currentSquare.setActivity(true);
-				addActiveSquareOnGrid(currentSquare);
+				// addActiveSquareOnGrid(currentSquare);
 				System.out.println(
 						"changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
-				System.out
-						.println("added activeSqs rectangle at point " + e.getPoint() + " " + currentSquare.toString());
+				// System.out
+				// .println("added activeSqs rectangle at point " + e.getPoint()
+				// + " " + currentSquare.toString());
 				repaint();
 			}
 		}
