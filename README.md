@@ -12,7 +12,8 @@ TASK:
 
 
 CHANGELOG:
-27.8 - mys - pridany package mouse do test. V triede Mouse Component su vyriesene eventy pre mys (David) 
+08/28	- changed "isAlive" boolean to "alive" (potential naming conflict with isAlive())
+08/27 - mys - pridany package mouse do test. V triede Mouse Component su vyriesene eventy pre mys (David) 
 
 
 
