@@ -25,11 +25,11 @@ public class GridComponent extends JComponent {
 	private int height;
 	private int sideLength;
 
-	ArrayList<ArrayList<LifeSquare>> sqGrid;
+	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
-	LifeSquare currentSquare;
-	LifeSquare currentFilledSquare;
+	private LifeSquare currentSquare;
+	private LifeSquare currentFilledSquare;
 
 	/**
 	 * Creates grid 10x10
@@ -193,6 +193,16 @@ public class GridComponent extends JComponent {
 		}
 	}
 
+	// TODO na druhe pole
+	public void resetGameGrid(ArrayList<ArrayList<LifeSquare>> grid) {
+		for (ArrayList<LifeSquare> arrayList : grid) {
+			for (LifeSquare lifeSquare : arrayList) {
+				lifeSquare.setActivity(false);
+			}
+		}
+		repaint();
+	}
+
 	/**
 	 * Method for adding selected LifeSquare to activeSqs
 	 * 
@@ -222,6 +232,15 @@ public class GridComponent extends JComponent {
 		if (lsq == currentFilledSquare)
 			currentFilledSquare = null;
 		activeSqs.remove(lsq);
+	}
+
+	// G + S
+	public ArrayList<ArrayList<LifeSquare>> getSqGrid() {
+		return sqGrid;
+	}
+
+	public void setSqGrid(ArrayList<ArrayList<LifeSquare>> sqGrid) {
+		this.sqGrid = sqGrid;
 	}
 
 	class MouseEventHandler extends MouseAdapter {
@@ -264,7 +283,6 @@ public class GridComponent extends JComponent {
 			}
 		}
 
-		// TODO nefacha
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
