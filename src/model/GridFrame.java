@@ -19,8 +19,8 @@ public class GridFrame extends JFrame {
 	JMenuItem step = new JMenuItem(menuItemsNames.get(0));
 	JMenuItem start = new JMenuItem(menuItemsNames.get(1));
 	JMenuItem stop = new JMenuItem(menuItemsNames.get(2));
-	JMenuItem exit = new JMenuItem(menuItemsNames.get(3));
-	JMenuItem clear = new JMenuItem(menuItemsNames.get(4));
+	JMenuItem clear = new JMenuItem(menuItemsNames.get(3));
+	JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
 		GridComponent gridC = new GridComponent();
