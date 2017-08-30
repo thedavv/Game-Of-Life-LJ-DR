@@ -4,7 +4,8 @@
 
 TASK:
 - pravidla
-- threding
+- krokovanie behu programu
+- threding(neskor)
 
 
 CHANGELOG:
