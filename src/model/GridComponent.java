@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -20,7 +19,7 @@ public class GridComponent extends JComponent {
 
 	private static final int DEFAULT_WIDTH = 600;
 	private static final int DEFAULT_HEIGHT = 400;
-	private static final int DEFAULT_SQUARE_SIZE = 20;
+	private static final int DEFAULT_SQUARE_SIZE = 10;
 	private int width;
 	private int height;
 	private int sideLength;
@@ -32,7 +31,7 @@ public class GridComponent extends JComponent {
 	LifeSquare currentFilledSquare;
 
 	/**
-	 * Creates grid 10x10
+	 * Creates a 10x10 grid.
 	 */
 	public GridComponent() {
 		// note: all ArrayLists are size 10 by default
@@ -46,16 +45,16 @@ public class GridComponent extends JComponent {
 		for (int x = 0; x < 10; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < 10; y++) {
-				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, sideLength, sideLength));
+				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
 			}
 		}
 
-		// mouse listeners
 		addMouseListener(new MouseEventHandler());
 		addMouseMotionListener(new MouseEventHandler());
 	}
 
 	/**
+	 * Creates a grid of the desired dimensions.
 	 * 
 	 * @param sizeX
 	 *            number of tiles in the horizontal axis
@@ -73,11 +72,10 @@ public class GridComponent extends JComponent {
 		for (int x = 0; x < sizeX; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < sizeY; y++) {
-				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, sideLength, sideLength));
+				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
 			}
 		}
 
-		// mouse listeners
 		addMouseListener(new MouseEventHandler());
 		addMouseMotionListener(new MouseEventHandler());
 	}
@@ -106,8 +104,8 @@ public class GridComponent extends JComponent {
 		}
 	}
 
-	// TODO tieto dve metody dat do interface a mat dve implementacie
 	// potentially too resource demanding?
+	// TODO tieto dve metody dat do interface a mat dve implementacie
 	public LifeSquare findSquare(Point2D point) {
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
@@ -159,13 +157,12 @@ public class GridComponent extends JComponent {
 				try {
 					if (i == 0 & j == 0) {
 						// do nothing (e.i. the square would equal the lsq)
-					} else if (this.sqGrid.get((lsq.x / this.sideLength) + i).get((lsq.y / this.sideLength) + j)
-							.isAlive()) {
+					} else if (this.sqGrid.get((lsq.getCoorX()) + i).get((lsq.getCoorY()) + j).isAlive()) {
 						count++;
 					}
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
-					e.printStackTrace();
+					// do nothing (no square exists at such a position
 				}
 			}
 		}
@@ -173,7 +170,7 @@ public class GridComponent extends JComponent {
 	}
 
 	/**
-	 * Print □ ⏹
+	 * Prints out the grid as a series of ☒ and ☐.
 	 */
 	public void printGrid() {
 
