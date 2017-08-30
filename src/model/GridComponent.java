@@ -1,10 +1,14 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -45,6 +49,8 @@ public class GridComponent extends JComponent {
 
 		// TODO addMouseListener(new MouseEventHandler());
 		// TODO addMouseMotionListener(new MouseEventHandler());
+		addMouseListener(new MouseEventHandler());
+		addMouseListener(new MouseEventHandler());
 	}
 
 	/**
@@ -72,6 +78,8 @@ public class GridComponent extends JComponent {
 
 		// TODO addMouseListener(new MouseEventHandler());
 		// TODO addMouseMotionListener(new MouseEventHandler());
+		addMouseListener(new MouseEventHandler());
+		addMouseListener(new MouseEventHandler());
 	}
 
 	@Override
@@ -98,6 +106,7 @@ public class GridComponent extends JComponent {
 		}
 	}
 
+	//TODO tieto dve metody dat do interface a mat dve implementacie
 	// potentially too resource demanding?
 	public LifeSquare findSquare(Point2D point) {
 		for (ArrayList<LifeSquare> array : sqGrid) {
@@ -109,6 +118,17 @@ public class GridComponent extends JComponent {
 		}
 		return null;
 	}
+	// pre najdenie life squares
+//	public LifeSquare findActiveSquare(Point2D point) {
+//		for (LifeSquare lsq : activeSqs) {
+//			if (lsq.contains(point)) {
+//				return lsq;
+//			}
+//		}
+//		System.out.println("null");
+//		return null;
+//	}
+
 
 	public void setActive(LifeSquare lsq) {
 		lsq.setActivity(true);
@@ -122,6 +142,8 @@ public class GridComponent extends JComponent {
 		repaint();
 	}
 
+	
+	//TODO pozriet sa na to este raz
 	/**
 	 * Return the number of <b>active</b> neighbors of the given square,
 	 * diagonal inclusive.
@@ -143,6 +165,7 @@ public class GridComponent extends JComponent {
 					}
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
+					e.printStackTrace();
 				}
 			}
 		}
@@ -171,5 +194,60 @@ public class GridComponent extends JComponent {
 	}
 
 	// TODO mouse listener
+	public void addActiveSquareOnGrid(LifeSquare lsq) {
+		double x = lsq.getX();
+		System.out.println(x + "X coordinate");
+		double y = lsq.getY();
+		System.out.println(y + "Y coordinate");
 
+		currentFilledSquare = new LifeSquare((int) x, (int) y, DEFAULT_SQUARE_SIZE, DEFAULT_SQUARE_SIZE, true);
+		activeSqs.add(currentFilledSquare);
+		repaint();
+	}
+
+	public void removeActiveSquareOnrid(LifeSquare lsq) {
+		if (lsq == currentFilledSquare)
+			currentFilledSquare = null;
+		activeSqs.remove(lsq);
+	}
+	
+	class MouseEventHandler extends MouseAdapter {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			currentSquare = findSquare(e.getPoint());
+			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
+				// TODO remove test
+				currentSquare.setActivity(false);
+				System.out.println("changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
+				System.out.println("removed activeSqs rectangle at point " + e.getPoint() + " " + currentSquare.toString());
+				removeActiveSquareOnrid(currentSquare);
+				repaint();
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO remove test
+			currentSquare = findSquare(e.getPoint());
+			if (currentSquare != null && !currentSquare.isAlive()) {
+				// TODO remove test
+				currentSquare.setActivity(true);
+				addActiveSquareOnGrid(currentSquare);
+				System.out.println("changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
+				System.out.println("added activeSqs rectangle at point " + e.getPoint() + " " + currentSquare.toString());
+				repaint();
+			}
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			currentSquare = findSquare(e.getPoint());
+			if (currentSquare != null && currentSquare.isAlive()) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			} else {
+				setCursor(Cursor.getDefaultCursor());
+			}
+		}
+	}
 }
