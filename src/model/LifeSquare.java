@@ -7,7 +7,7 @@ public class LifeSquare extends Rectangle {
 	private static final long serialVersionUID = 1L;
 
 	// NOTE: parent already contains size and X,Y coords
-	private boolean alive = false;
+	private boolean populated = false;
 	// private int age; //TODO future feature
 
 	LifeSquare() {
@@ -29,7 +29,7 @@ public class LifeSquare extends Rectangle {
 
 	public LifeSquare(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.alive = false;
+		this.populated = false;
 	}
 
 	/**
@@ -43,40 +43,40 @@ public class LifeSquare extends Rectangle {
 	 *            the width of the <code>LifeSquare</code>
 	 * @param height
 	 *            the height of the <code>LifeSquare</code>
-	 * @param active
+	 * @param populated
 	 *            the life state of the <code>LifeSquare</code>
 	 */
 
-	public LifeSquare(int x, int y, int width, int height, boolean active) {
+	public LifeSquare(int x, int y, int width, int height, boolean populated) {
 		super(x, y, width, height);
-		this.alive = active;
+		this.populated = populated;
 	}
 
 	/**
 	 * Enables you to set the "life status" of a <code>LifeSquare</code>. True
 	 * means alive, false inactive.
 	 * 
-	 * @param alive
+	 * @param aliveStatus
 	 *            desired activity status
 	 */
-	public void setActivity(boolean alive) {
-		this.alive = alive;
+	public void setActivity(boolean aliveStatus) {
+		this.populated = aliveStatus;
 	}
 
 	/**
 	 * Returns the life status of the called <code>LifeSquare</code>.
 	 * 
 	 */
-	public boolean isAlive() {
-		return alive;
+	public boolean isPopulated() {
+		return populated;
 	}
 
 	@Override
 	public String toString() {
-		if (alive) {
-			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Active";
+		if (populated) {
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Populated";
 		} else {
-			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Inactive";
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Empty";
 		}
 	}
 }

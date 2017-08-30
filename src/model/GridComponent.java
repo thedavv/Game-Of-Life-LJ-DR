@@ -93,7 +93,7 @@ public class GridComponent extends JComponent {
 
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
-				if (lsq.isAlive()) {
+				if (lsq.isPopulated()) {
 					g2.setColor(Color.YELLOW);
 					g2.fill(lsq);
 					g2.setColor(Color.BLACK);
@@ -130,17 +130,22 @@ public class GridComponent extends JComponent {
 	// return null;
 	// }
 
-	public void setActive(LifeSquare lsq) {
-		lsq.setActivity(true);
-		activeSqs.add(lsq);
-		repaint();
-	}
-
-	public void setInactive(LifeSquare lsq) {
-		lsq.setActivity(false);
-		activeSqs.remove(lsq);
-		repaint();
-	}
+	
+	/**
+	 * 
+	 * 
+	 * @param lsq
+	 */
+	//TODO remove not neeed
+//	public void setActive(LifeSquare lsq) {
+//		lsq.setActivity(true);
+//		//activeSqs.add(lsq);
+//	}
+//
+//	public void setInactive(LifeSquare lsq) {
+//		lsq.setActivity(false);
+//		//activeSqs.remove(lsq);
+//	}
 
 	// TODO pozriet sa na to este raz
 	/**
@@ -160,7 +165,7 @@ public class GridComponent extends JComponent {
 					if (i == 0 & j == 0) {
 						// do nothing (e.i. the square would equal the lsq)
 					} else if (this.sqGrid.get((lsq.x / this.sideLength) + i).get((lsq.y / this.sideLength) + j)
-							.isAlive()) {
+							.isPopulated()) {
 						count++;
 					}
 				} catch (IndexOutOfBoundsException e) {
@@ -183,7 +188,7 @@ public class GridComponent extends JComponent {
 				if (x % 10 == 0 & x != 0) {
 					System.out.printf(",");
 				}
-				if (this.sqGrid.get(x).get(y).isAlive()) {
+				if (this.sqGrid.get(x).get(y).isPopulated()) {
 					System.out.printf("☒ ");
 				} else {
 					System.out.printf("☐ ");
@@ -250,7 +255,7 @@ public class GridComponent extends JComponent {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
-			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
+			if (currentSquare != null && currentSquare.isPopulated() && e.getClickCount() >= 2) {
 				// TODO remove test
 				// TODO remove active if not needed
 				currentSquare.setActivity(false);
@@ -269,7 +274,7 @@ public class GridComponent extends JComponent {
 		public void mousePressed(MouseEvent e) {
 			// TODO remove test
 			currentSquare = findSquare(e.getPoint());
-			if (currentSquare != null && !currentSquare.isAlive()) {
+			if (currentSquare != null && !currentSquare.isPopulated()) {
 				// TODO remove test
 				// TODO remove remove if not needed
 				currentSquare.setActivity(true);
@@ -288,7 +293,7 @@ public class GridComponent extends JComponent {
 			currentSquare = findSquare(e.getPoint());
 			// TODO remove test
 			// System.out.println("square found at : " + currentSquare);
-			if (currentSquare != null && currentSquare.isAlive()) {
+			if (currentSquare != null && currentSquare.isPopulated()) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			} else {
 				setCursor(Cursor.getDefaultCursor());

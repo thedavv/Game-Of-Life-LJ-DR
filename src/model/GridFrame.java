@@ -24,7 +24,6 @@ public class GridFrame extends JFrame {
 	private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
-		
 
 		// for test purposes
 		gridC.getSqGrid().get(2).get(5).setActivity(true);
@@ -50,6 +49,10 @@ public class GridFrame extends JFrame {
 		addMenuEventsToGridFrame();
 	}
 
+	
+	/**
+	 * Create Menu for GridFrame
+	 */
 	private void createMenuForGridFrame() {
 		menuBar.add(menu);
 		menu.add(step);
@@ -61,6 +64,9 @@ public class GridFrame extends JFrame {
 		menu.add(exit);
 	}
 
+	/**
+	 *  Method for adding menu listeners to GridFrame
+	 */
 	private void addMenuEventsToGridFrame() {
 		step.addActionListener((ActionEvent e) -> {
 			// TODO dokoncit
@@ -74,8 +80,8 @@ public class GridFrame extends JFrame {
 		exit.addActionListener((ActionEvent e) -> {
 			dispose();
 		});
-		
-		//TODO dokoncit pre druhe pole
+
+		// TODO dokoncit pre druhe pole
 		clear.addActionListener((ActionEvent e) -> {
 			gridC.resetGameGrid(gridC.getSqGrid());
 		});
