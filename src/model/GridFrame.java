@@ -13,10 +13,15 @@ public class GridFrame extends JFrame {
 		gridC.sqGrid.get(0).get(0).setActivity(true);
 		gridC.sqGrid.get(8).get(1).setActivity(true);
 		System.out.println(gridC.sqGrid.get(5).get(5).toString());
+		System.out.println(gridC.numOfActiveNeighbors(gridC.sqGrid.get(5).get(5)));
 		System.out.println(gridC.sqGrid.get(0).get(0).toString());
+		System.out.println(gridC.numOfActiveNeighbors(gridC.sqGrid.get(1).get(0)));
 		System.out.println(gridC.sqGrid.get(8).get(1).toString());
+		System.out.println(gridC.numOfActiveNeighbors(gridC.sqGrid.get(8).get(0)));
 		System.out.println(gridC.sqGrid.get(4).get(9).toString());
+		System.out.println(gridC.numOfActiveNeighbors(gridC.sqGrid.get(4).get(9)));
 		System.out.println(gridC.sqGrid.get(3).get(7).toString());
+		System.out.println(gridC.numOfActiveNeighbors(gridC.sqGrid.get(3).get(7)));
 		add(gridC);
 		pack();
 		setLocationRelativeTo(null);

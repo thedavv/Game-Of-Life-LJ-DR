@@ -138,7 +138,8 @@ public class GridComponent extends JComponent {
 				try {
 					if (i == 0 & j == 0) {
 						// do nothing (e.i. the square would equal the lsq)
-					} else if (this.sqGrid.get((lsq.x) + i).get((lsq.y) + j).isAlive()) {
+					} else if (this.sqGrid.get((lsq.x / this.sideLength) + i).get((lsq.y / this.sideLength) + j)
+							.isAlive()) {
 						count++;
 					}
 				} catch (IndexOutOfBoundsException e) {
