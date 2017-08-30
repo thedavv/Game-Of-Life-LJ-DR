@@ -7,7 +7,7 @@ public class LifeSquare extends Rectangle {
 	private static final long serialVersionUID = 1L;
 
 	// NOTE: parent already contains size and X,Y coords
-	private boolean populated = false;
+	private boolean alive = false;
 	// private int age; //TODO future feature
 
 	LifeSquare() {
@@ -29,7 +29,7 @@ public class LifeSquare extends Rectangle {
 
 	public LifeSquare(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.populated = false;
+		this.alive = false;
 	}
 
 	/**
@@ -43,40 +43,40 @@ public class LifeSquare extends Rectangle {
 	 *            the width of the <code>LifeSquare</code>
 	 * @param height
 	 *            the height of the <code>LifeSquare</code>
-	 * @param populated
+	 * @param active
 	 *            the life state of the <code>LifeSquare</code>
 	 */
 
-	public LifeSquare(int x, int y, int width, int height, boolean populated) {
+	public LifeSquare(int x, int y, int width, int height, boolean active) {
 		super(x, y, width, height);
-		this.populated = populated;
+		this.alive = active;
 	}
 
 	/**
 	 * Enables you to set the "life status" of a <code>LifeSquare</code>. True
 	 * means alive, false inactive.
 	 * 
-	 * @param aliveStatus
+	 * @param alive
 	 *            desired activity status
 	 */
-	public void setActivity(boolean aliveStatus) {
-		this.populated = aliveStatus;
+	public void setActivity(boolean alive) {
+		this.alive = alive;
 	}
 
 	/**
 	 * Returns the life status of the called <code>LifeSquare</code>.
 	 * 
 	 */
-	public boolean isPopulated() {
-		return populated;
+	public boolean isAlive() {
+		return alive;
 	}
 
 	@Override
 	public String toString() {
-		if (populated) {
-			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Populated";
+		if (alive) {
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Active";
 		} else {
-			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Empty";
+			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Inactive";
 		}
 	}
 }
