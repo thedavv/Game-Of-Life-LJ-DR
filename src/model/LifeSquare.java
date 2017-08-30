@@ -7,7 +7,7 @@ public class LifeSquare extends Rectangle {
 	private static final long serialVersionUID = 1L;
 
 	// NOTE: parent already contains size and X,Y coords
-	private boolean isAlive = false;
+	private boolean alive = false;
 	// private int age; //TODO future feature
 
 	LifeSquare() {
@@ -29,7 +29,7 @@ public class LifeSquare extends Rectangle {
 
 	public LifeSquare(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.isAlive = false;
+		this.alive = false;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class LifeSquare extends Rectangle {
 
 	public LifeSquare(int x, int y, int width, int height, boolean active) {
 		super(x, y, width, height);
-		this.isAlive = active;
+		this.alive = active;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class LifeSquare extends Rectangle {
 	 *            desired activity status
 	 */
 	public void setActivity(boolean alive) {
-		isAlive = alive;
+		this.alive = alive;
 	}
 
 	/**
@@ -68,12 +68,12 @@ public class LifeSquare extends Rectangle {
 	 * 
 	 */
 	public boolean isAlive() {
-		return isAlive;
+		return alive;
 	}
 
 	@Override
 	public String toString() {
-		if (isAlive) {
+		if (alive) {
 			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Active";
 		} else {
 			return "LifeSquare [x=" + (this.x / width) + " y=" + (this.y / width) + "] is Inactive";
