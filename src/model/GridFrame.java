@@ -8,7 +8,7 @@ public class GridFrame extends JFrame {
 
 	public GridFrame() {
 		// all the print functions are for debugging
-		GridComponent gridC = new GridComponent();
+		GridComponent gridC = new GridComponent(100, 100);
 		gridC.sqGrid.get(2).get(5).setActivity(true);
 		gridC.sqGrid.get(0).get(0).setActivity(true);
 		gridC.sqGrid.get(8).get(1).setActivity(true);
