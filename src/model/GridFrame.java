@@ -68,19 +68,19 @@ public class GridFrame extends JFrame {
 	 */
 	private void addMenuEventsToGridFrame() {
 		step.addActionListener((ActionEvent e) -> {
-//			
-//			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
-			
+			//
+			// gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(),
+			// gridC.getSqGridTemp()));
+
 			gridC.setSqGridTemp(gridC.createNextGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
-			//System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
 			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
-			//System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
 			gridC.resetGrid(gridC.getSqGridTemp());
-			//System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
-			
-			
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+
 			gridC.repaint();
-			
+
 		});
 		start.addActionListener((ActionEvent e) -> {
 			// TODO dokoncit
