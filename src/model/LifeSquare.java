@@ -118,7 +118,7 @@ public class LifeSquare extends Rectangle {
 	 * @param alive
 	 *            desired activity status
 	 */
-	public void setActivity(boolean alive) {
+	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
 
