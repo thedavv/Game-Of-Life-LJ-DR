@@ -14,7 +14,7 @@ public class GridFrame extends JFrame {
 	private static final List<String> menuItemsNames = Arrays.asList("Step", "Start", "Stop", "Clear",
 			"Exit Application");
 
-	private GridComponent gridC = new GridComponent();
+	private GridComponent gridC = new GridComponent(20, 20);
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu = new JMenu("Game Actions");
 	private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
