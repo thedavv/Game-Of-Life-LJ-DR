@@ -25,6 +25,7 @@ public class GridComponent extends JComponent {
 	private int sideLength;
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
+	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
 	private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
@@ -41,11 +42,14 @@ public class GridComponent extends JComponent {
 
 		activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
+		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
 
 		for (int x = 0; x < 10; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
+			sqGridTemp.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < 10; y++) {
 				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
+				sqGridTemp.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
 			}
 		}
 
@@ -68,11 +72,13 @@ public class GridComponent extends JComponent {
 
 		activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
+		sqGridTemp.add(new ArrayList<LifeSquare>());
 
 		for (int x = 0; x < sizeX; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < sizeY; y++) {
 				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
+				sqGridTemp.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
 			}
 		}
 
@@ -104,7 +110,13 @@ public class GridComponent extends JComponent {
 		}
 	}
 
-	// TODO tieto dve metody dat do interface a mat dve implementacie
+	/**
+	 * Method returns selected LifeSquare at point on screen
+	 * 
+	 * @param point
+	 *            is the Point2D
+	 * @return LifeSquare object
+	 */
 	public LifeSquare findSquare(Point2D point) {
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
@@ -115,19 +127,7 @@ public class GridComponent extends JComponent {
 		}
 		return null;
 	}
-	// TODO remove later if not needed
-	// pre najdenie life squares
-	// public LifeSquare findActiveSquare(Point2D point) {
-	// for (LifeSquare lsq : activeSqs) {
-	// if (lsq.contains(point)) {
-	// return lsq;
-	// }
-	// }
-	// System.out.println("null");
-	// return null;
-	// }
 
-	// TODO pozriet sa na to este raz
 	/**
 	 * Return the number of <b>active</b> neighbors of the given square,
 	 * diagonal inclusive.
@@ -150,6 +150,7 @@ public class GridComponent extends JComponent {
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
 					// do nothing (no square exists at such a position
+					//e.printStackTrace();
 				}
 			}
 		}
@@ -177,45 +178,64 @@ public class GridComponent extends JComponent {
 		}
 	}
 
-	// TODO na druhe pole
-	public void resetGameGrid(ArrayList<ArrayList<LifeSquare>> grid) {
+	/**
+	 * Method that resets the grid of LifeSquares
+	 * 
+	 * @param grid
+	 *            is the ArrayList of LifeSquares
+	 */
+	public void resetGrid(ArrayList<ArrayList<LifeSquare>> grid) {
 		for (ArrayList<LifeSquare> arrayList : grid) {
 			for (LifeSquare lifeSquare : arrayList) {
 				lifeSquare.setAlive(false);
 			}
 		}
-		repaint();
 	}
 
 	/**
-	 * Method for adding selected LifeSquare to activeSqs
+	 * Method that computes next generation and stores it in sqGridTemp
 	 * 
-	 * @param lsq
-	 *            is the curent LifeSquare
+	 * @param sqGrid
+	 *            is the curent generation
+	 * @param sqGridTemp
+	 *            is the tmporary generation used for computing next generation
+	 * @return sqGridTemp that has next generation
 	 */
-	@Deprecated
-	public void addActiveSquareOnGrid(LifeSquare lsq) {
-		double x = lsq.getX();
-		// TODO remove tests
-		System.out.println(x + "X coordinate");
-		double y = lsq.getY();
-		System.out.println(y + "Y coordinate");
+	public ArrayList<ArrayList<LifeSquare>> createNextGeneration(ArrayList<ArrayList<LifeSquare>> sqGrid,
+			ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
+		int numberOfNeighbors = 0;
+		boolean aliveStatus = false;
 
-		currentSquare = new LifeSquare((int) x, (int) y, DEFAULT_SQUARE_SIZE, DEFAULT_SQUARE_SIZE, true);
-		activeSqs.add(currentSquare);
+		for (ArrayList<LifeSquare> arrayList : sqGrid) {
+			for (LifeSquare lifeSquare : arrayList) {
+				numberOfNeighbors = numOfActiveNeighbors(lifeSquare);
+				aliveStatus = RulesForLifeCycle.setGenerationLifeStatus(numberOfNeighbors, lifeSquare);
+				sqGridTemp.get(lifeSquare.getCoorX()).get(lifeSquare.getCoorY()).setAlive(aliveStatus);
+			}
+		}
+
+		return sqGridTemp;
 	}
 
 	/**
-	 * Method that removes selected LifeSquare from activeSqs
+	 * Method that sets next generation
 	 * 
-	 * @param lsq
-	 *            is the curent LifeSquare
+	 * @param sqGrid
+	 *            is the grid of current generation
+	 * @param sqGridTemp
+	 *            is the temp grid that has next generation
+	 * @return sqGrid of the new generation
 	 */
-	@Deprecated
-	public void removeActiveSquareOnrid(LifeSquare lsq) {
-		if (lsq == currentSquare)
-			currentSquare = null;
-		activeSqs.remove(lsq);
+	public ArrayList<ArrayList<LifeSquare>> setNextGenerationAsCurrentGeneration(
+			ArrayList<ArrayList<LifeSquare>> sqGrid, ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
+
+		for (ArrayList<LifeSquare> arrayList : sqGrid) {
+			for (LifeSquare lifeSquare : arrayList) {
+				lifeSquare.setAlive(sqGridTemp.get(lifeSquare.getCoorX()).get(lifeSquare.getCoorY()).isAlive());
+			}
+		}
+		
+		return sqGrid;
 	}
 
 	// G + S
@@ -226,6 +246,15 @@ public class GridComponent extends JComponent {
 	public void setSqGrid(ArrayList<ArrayList<LifeSquare>> sqGrid) {
 		this.sqGrid = sqGrid;
 	}
+
+	public ArrayList<ArrayList<LifeSquare>> getSqGridTemp() {
+		return sqGridTemp;
+	}
+	
+	public void setSqGridTemp(ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
+		this.sqGridTemp = sqGridTemp;
+	}
+
 
 	/**
 	 * Adapter class for Mouse actions. Action include mouse clicked, mouse
