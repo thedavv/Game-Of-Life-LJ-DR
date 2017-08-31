@@ -77,8 +77,12 @@ public class GridFrame extends JFrame {
 			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
 			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
 			gridC.resetGrid(gridC.getSqGridTemp());
+<<<<<<< HEAD
 			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
 
+=======
+			//System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+>>>>>>> 05186c9519d6cc0f8b8c867a47f8155773f4b9a5
 			gridC.repaint();
 
 		});
