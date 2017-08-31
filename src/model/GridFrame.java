@@ -68,7 +68,18 @@ public class GridFrame extends JFrame {
 	 */
 	private void addMenuEventsToGridFrame() {
 		step.addActionListener((ActionEvent e) -> {
-			// TODO dokoncit
+			//
+			// gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(),
+			// gridC.getSqGridTemp()));
+
+			gridC.setSqGridTemp(gridC.createNextGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+			gridC.resetGrid(gridC.getSqGridTemp());
+			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
+			gridC.repaint();
+
 		});
 		start.addActionListener((ActionEvent e) -> {
 			// TODO dokoncit
@@ -82,7 +93,8 @@ public class GridFrame extends JFrame {
 
 		// TODO dokoncit pre druhe pole
 		clear.addActionListener((ActionEvent e) -> {
-			gridC.resetGameGrid(gridC.getSqGrid());
+			gridC.resetGrid(gridC.getSqGrid());
+			gridC.repaint();
 		});
 	}
 }
