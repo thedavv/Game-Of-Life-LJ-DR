@@ -23,20 +23,17 @@ public class GridFrame extends JFrame {
 	private JMenuItem clear = new JMenuItem(menuItemsNames.get(3));
 	private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
-
 	public GridFrame() {
 
-
 		// for test purposes
-		gridC.getSqGrid().get(2).get(5).setActivity(true);
-		gridC.getSqGrid().get(0).get(0).setActivity(true);
-		gridC.getSqGrid().get(8).get(1).setActivity(true);
+		gridC.getSqGrid().get(2).get(5).setAlive(true);
+		gridC.getSqGrid().get(0).get(0).setAlive(true);
+		gridC.getSqGrid().get(8).get(1).setAlive(true);
 		System.out.println(gridC.getSqGrid().get(5).get(5).toString());
 		System.out.println(gridC.getSqGrid().get(0).get(0).toString());
 		System.out.println(gridC.getSqGrid().get(8).get(1).toString());
 		System.out.println(gridC.getSqGrid().get(4).get(9).toString());
 		System.out.println(gridC.getSqGrid().get(3).get(7).toString());
-
 
 		// adding components to frame
 		createMenuForGridFrame();
@@ -52,8 +49,6 @@ public class GridFrame extends JFrame {
 		addMenuEventsToGridFrame();
 	}
 
-
-	
 	/**
 	 * Create Menu for GridFrame
 	 */
@@ -69,7 +64,7 @@ public class GridFrame extends JFrame {
 	}
 
 	/**
-	 *  Method for adding menu listeners to GridFrame
+	 * Method for adding menu listeners to GridFrame
 	 */
 	private void addMenuEventsToGridFrame() {
 		step.addActionListener((ActionEvent e) -> {
@@ -88,7 +83,6 @@ public class GridFrame extends JFrame {
 		// TODO dokoncit pre druhe pole
 		clear.addActionListener((ActionEvent e) -> {
 			gridC.resetGameGrid(gridC.getSqGrid());
-
 		});
 	}
 }
