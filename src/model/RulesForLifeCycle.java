@@ -29,8 +29,8 @@ public class RulesForLifeCycle {
 	 *            is the count of live neighbors around the cell
 	 * @return true if cell stayed alive or has been created
 	 */
-	public boolean setGenerationLifeStatus(int numberOfNeighbors) {
-		boolean isCellAliveStatus;
+	public static boolean setGenerationLifeStatus(int numberOfNeighbors, LifeSquare curentSquare) {
+		boolean isCellAliveStatus = false;
 
 		switch (numberOfNeighbors) {
 		case 0:
@@ -42,7 +42,12 @@ public class RulesForLifeCycle {
 			isCellAliveStatus = true;
 			break;
 		default:
-			isCellAliveStatus = true;
+			if (curentSquare.isAlive()) {
+				isCellAliveStatus = false;
+			}
+			if (!curentSquare.isAlive()) {
+				isCellAliveStatus = true;
+			}
 			break;
 		}
 
