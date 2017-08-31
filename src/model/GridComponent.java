@@ -72,10 +72,11 @@ public class GridComponent extends JComponent {
 
 		activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
-		sqGridTemp.add(new ArrayList<LifeSquare>());
+		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 
 		for (int x = 0; x < sizeX; x++) {
 			sqGrid.add(new ArrayList<LifeSquare>());
+			sqGridTemp.add(new ArrayList<LifeSquare>());
 			for (int y = 0; y < sizeY; y++) {
 				sqGrid.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
 				sqGridTemp.get(x).add(new LifeSquare(x * sideLength, y * sideLength, x, y, sideLength, sideLength));
@@ -150,7 +151,7 @@ public class GridComponent extends JComponent {
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
 					// do nothing (no square exists at such a position
-					//e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 		}
@@ -234,7 +235,7 @@ public class GridComponent extends JComponent {
 				lifeSquare.setAlive(sqGridTemp.get(lifeSquare.getCoorX()).get(lifeSquare.getCoorY()).isAlive());
 			}
 		}
-		
+
 		return sqGrid;
 	}
 
@@ -250,11 +251,10 @@ public class GridComponent extends JComponent {
 	public ArrayList<ArrayList<LifeSquare>> getSqGridTemp() {
 		return sqGridTemp;
 	}
-	
+
 	public void setSqGridTemp(ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
 		this.sqGridTemp = sqGridTemp;
 	}
-
 
 	/**
 	 * Adapter class for Mouse actions. Action include mouse clicked, mouse
