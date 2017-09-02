@@ -7,6 +7,7 @@ TASK:
 - (DONE) vytvorenie GridTemp
 - (DONE) krokovanie behu programu cez step 
 - threding / beh v case(neskor) -> vytvorenie slidera a napojenie to na thread
+- Prerobit menu na buttony / pripadne klavesove skratky
 
 
 
