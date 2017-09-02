@@ -39,6 +39,7 @@ public class GridFrame extends JFrame {
 		// frame setup
 		pack();
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// setResizable(false);
 
 		// test grid
