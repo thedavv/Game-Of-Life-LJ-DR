@@ -46,9 +46,7 @@ public class RulesForLifeCycle {
 			isCellAliveStatus = true;
 			break;
 		default:
-			if (curentSquare.isAlive()) {
-				isCellAliveStatus = false;
-			}
+			isCellAliveStatus = false;
 			break;
 		}
 

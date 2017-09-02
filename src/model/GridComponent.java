@@ -9,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.JComponent;
 
@@ -18,7 +17,7 @@ public class GridComponent extends JComponent {
 	private static final long serialVersionUID = 1L;
 
 	private static final int DEFAULT_WIDTH = 600;
-	private static final int DEFAULT_HEIGHT = 400;
+	private static final int DEFAULT_HEIGHT = 600;
 	private static final int DEFAULT_SQUARE_SIZE = 10;
 	private int width;
 	private int height;
@@ -26,7 +25,7 @@ public class GridComponent extends JComponent {
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
-	private HashSet<LifeSquare> activeSqs;
+	//private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
 	// private LifeSquare currentFilledSquare;
@@ -40,7 +39,7 @@ public class GridComponent extends JComponent {
 		height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
 
-		activeSqs = new HashSet<>();
+		//activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
 
@@ -66,11 +65,13 @@ public class GridComponent extends JComponent {
 	 *            number of tiles in the vertical axis
 	 */
 	public GridComponent(int sizeX, int sizeY) {
-		width = (sizeX * 10) + 100; // +100 for debugging purpose
-		height = (sizeY * 10) + 100; // +100 for debugging purpose
+		width = (sizeX * 10); //+ 100; // +100 for debugging purpose
+		height = (sizeY * 10);// + 100; // +100 for debugging purpose
+		//width = DEFAULT_WIDTH;
+		//height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
 
-		activeSqs = new HashSet<>();
+		//activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 

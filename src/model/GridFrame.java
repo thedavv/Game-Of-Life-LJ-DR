@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,11 @@ public class GridFrame extends JFrame {
 	private static final List<String> menuItemsNames = Arrays.asList("Step", "Start", "Stop", "Clear",
 			"Exit Application");
 
-	private GridComponent gridC = new GridComponent(20, 20);
+	// create components
+	private GridComponent gridC = new GridComponent(60, 60);
+	private ControlPanel controlP = new ControlPanel(600, this);
+
+	// create menu
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu = new JMenu("Game Actions");
 	private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
@@ -24,26 +29,20 @@ public class GridFrame extends JFrame {
 	private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
-
-		// for test purposes
-		gridC.getSqGrid().get(2).get(5).setAlive(true);
-		gridC.getSqGrid().get(0).get(0).setAlive(true);
-		gridC.getSqGrid().get(8).get(1).setAlive(true);
-		System.out.println(gridC.getSqGrid().get(5).get(5).toString());
-		System.out.println(gridC.getSqGrid().get(0).get(0).toString());
-		System.out.println(gridC.getSqGrid().get(8).get(1).toString());
-		System.out.println(gridC.getSqGrid().get(4).get(9).toString());
-		System.out.println(gridC.getSqGrid().get(3).get(7).toString());
-
 		// adding components to frame
 		createMenuForGridFrame();
 		setJMenuBar(menuBar);
-		add(gridC);
+
+		add(gridC, BorderLayout.NORTH);
+		add(controlP, BorderLayout.CENTER);
+
+		// frame setup
 		pack();
 		setLocationRelativeTo(null);
+		// setResizable(false);
 
 		// test grid
-		gridC.printGrid();
+		// gridC.printGrid();
 
 		// adding action listeners
 		addMenuEventsToGridFrame();
@@ -68,25 +67,24 @@ public class GridFrame extends JFrame {
 	 */
 	private void addMenuEventsToGridFrame() {
 		step.addActionListener((ActionEvent e) -> {
-			//
-			// gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(),
-			// gridC.getSqGridTemp()));
 
 			gridC.setSqGridTemp(gridC.createNextGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
-			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
-			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
-			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
-			gridC.resetGrid(gridC.getSqGridTemp());
-			// System.out.println(gridC.getSqGrid().get(0).get(0).isAlive());
-			gridC.repaint();
 
+			gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(), gridC.getSqGridTemp()));
+
+			gridC.resetGrid(gridC.getSqGridTemp());
+
+			gridC.repaint();
 		});
+
 		start.addActionListener((ActionEvent e) -> {
 			// TODO dokoncit
 		});
+
 		stop.addActionListener((ActionEvent e) -> {
 			// TODO dokoncit
 		});
+
 		exit.addActionListener((ActionEvent e) -> {
 			dispose();
 		});
@@ -94,7 +92,14 @@ public class GridFrame extends JFrame {
 		// TODO dokoncit pre druhe pole
 		clear.addActionListener((ActionEvent e) -> {
 			gridC.resetGrid(gridC.getSqGrid());
+			gridC.resetGrid(gridC.getSqGridTemp());
 			gridC.repaint();
 		});
 	}
+
+	// G + S
+	public GridComponent getGridC() {
+		return gridC;
+	}
+
 }
