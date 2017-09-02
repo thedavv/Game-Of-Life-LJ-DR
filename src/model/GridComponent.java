@@ -100,7 +100,7 @@ public class GridComponent extends JComponent {
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
 				if (lsq.isAlive()) {
-					g2.setColor(Color.YELLOW);
+					g2.setColor(Color.BLUE);
 					g2.fill(lsq);
 					g2.setColor(Color.BLACK);
 					g2.draw(lsq);
