@@ -24,17 +24,6 @@ public class GridFrame extends JFrame {
 	private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
-
-		// for test purposes
-		gridC.getSqGrid().get(2).get(5).setAlive(true);
-		gridC.getSqGrid().get(0).get(0).setAlive(true);
-		gridC.getSqGrid().get(8).get(1).setAlive(true);
-		System.out.println(gridC.getSqGrid().get(5).get(5).toString());
-		System.out.println(gridC.getSqGrid().get(0).get(0).toString());
-		System.out.println(gridC.getSqGrid().get(8).get(1).toString());
-		System.out.println(gridC.getSqGrid().get(4).get(9).toString());
-		System.out.println(gridC.getSqGrid().get(3).get(7).toString());
-
 		// adding components to frame
 		createMenuForGridFrame();
 		setJMenuBar(menuBar);
