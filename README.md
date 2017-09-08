@@ -10,7 +10,7 @@ TASK:
 - (DONE)Prerobit menu na buttony / pripadne klavesove skratky
 - prerobit feel a look gridu na faru menej tahajucu oci/ kazdych 5 odriadkovat
 - dat Scroll Pannel na GridComponent
-- nastavit nepridavanie veci ak je pusteny start(treba prejst zadanie s Martinom)
+  (DONE) nastavit nepridavanie veci ak je pusteny start
 - // neskor dokoncit bonusove ulohy
 
 - layuot vylepsit
@@ -26,12 +26,12 @@ TASK:
 		- pocet zivych buniek
 		- step time
 
-- start (boolean aby nevytvaralo novy thread?)
-- drago right click = vymazavanie (left = kreslenie)
+- (DONE)drag right click = vymazavanie (left = kreslenie)
 
 
 
 CHANGELOG:
+- 08/09 - dokoncena mys rightclick, zatvorenie issue pri RulesForLifeCycle, zakazanie tlacidiel pri behu programu 
 - 09/01 - vyhodene menu. Vytvoreny ControlFrame, pridane buttony a slider, pridane akcie k nim, zakomentovane testy, spraveny beh programu 
 - 08/31 - vytvorene funkcne krokovanie + pravidla (nemenitelne, zatial)
 - 08/30 - vytvorene menu clear doplnene o step, formatovnie, zmenene pristupove identifikatory pri gridComponent, odstranene nepouzite metody 
