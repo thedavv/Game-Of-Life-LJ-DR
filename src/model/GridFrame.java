@@ -6,9 +6,8 @@ import java.awt.BorderLayout;
 //import java.util.List;
 
 import javax.swing.JFrame;
-//import javax.swing.JMenu;
-//import javax.swing.JMenuBar;
-//import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -20,8 +19,8 @@ public class GridFrame extends JFrame {
 	private ControlPanel controlP = new ControlPanel(600, this);
 
 	// create menu
-//	private JMenuBar menuBar = new JMenuBar();
-//	private JMenu menu = new JMenu("Game Actions");
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu menu = new JMenu("Game Patterns");
 //	private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
 //	private JMenuItem start = new JMenuItem(menuItemsNames.get(1));
 //	private JMenuItem stop = new JMenuItem(menuItemsNames.get(2));
