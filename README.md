@@ -13,6 +13,22 @@ TASK:
 - nastavit nepridavanie veci ak je pusteny start(treba prejst zadanie s Martinom)
 - // neskor dokoncit bonusove ulohy
 
+- layuot vylepsit
+	- 5x riadkov bola hurba ciara
+	- biele pozadie
+	- scroll na velkost okna
+	- umiestnenie layout
+	- buttony po preusporiadavat
+- button
+	- na isty pocet 
+- status panel
+		- kolka generacia
+		- pocet zivych buniek
+		- step time
+
+- start (boolean aby nevytvaralo novy thread?)
+- drago right click = vymazavanie (left = kreslenie)
+
 
 
 CHANGELOG:
