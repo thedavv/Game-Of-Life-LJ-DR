@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 public class GridComponent extends JComponent {
 
@@ -25,7 +26,7 @@ public class GridComponent extends JComponent {
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
-	//private HashSet<LifeSquare> activeSqs;
+	// private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
 	// private LifeSquare currentFilledSquare;
@@ -38,8 +39,8 @@ public class GridComponent extends JComponent {
 		sideLength = DEFAULT_SQUARE_SIZE;
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
-		
-		//activeSqs = new HashSet<>();
+
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
 
@@ -66,13 +67,13 @@ public class GridComponent extends JComponent {
 	 */
 	public GridComponent(int sizeX, int sizeY) {
 		sideLength = DEFAULT_SQUARE_SIZE;
-		width = (sizeX * sideLength); //+ 100; // +100 for debugging purpose
+		width = (sizeX * sideLength); // + 100; // +100 for debugging purpose
 		height = (sizeY * sideLength);// + 100; // +100 for debugging purpose
-		//width = DEFAULT_WIDTH;
-		//height = DEFAULT_HEIGHT;
+		// width = DEFAULT_WIDTH;
+		// height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
 
-		//activeSqs = new HashSet<>();
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 
@@ -270,15 +271,7 @@ public class GridComponent extends JComponent {
 		public void mouseClicked(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
-				// TODO remove test
-				// TODO remove active if not needed
 				currentSquare.setAlive(false);
-				//System.out.println(
-				//"changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
-				// System.out.println(
-				// "removed activeSqs rectangle at point " + e.getPoint() + " "
-				// + currentSquare.toString());
-				// removeActiveSquareOnrid(currentSquare);
 				repaint();
 			}
 		}
@@ -289,15 +282,7 @@ public class GridComponent extends JComponent {
 			// TODO remove test
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && !currentSquare.isAlive()) {
-				// TODO remove test
-				// TODO remove remove if not needed
 				currentSquare.setAlive(true);
-				// addActiveSquareOnGrid(currentSquare);
-				//System.out.println(
-				//		"changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
-				// System.out
-				// .println("added activeSqs rectangle at point " + e.getPoint()
-				// + " " + currentSquare.toString());
 				repaint();
 			}
 		}
@@ -317,9 +302,10 @@ public class GridComponent extends JComponent {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
-
-			if (currentSquare != null && !currentSquare.isAlive()) {
+			if (currentSquare != null && !currentSquare.isAlive() && SwingUtilities.isLeftMouseButton(e)) {
 				currentSquare.setAlive(true);
+			} else if (currentSquare != null && currentSquare.isAlive() && SwingUtilities.isRightMouseButton(e)) {
+				currentSquare.setAlive(false);
 			}
 			repaint();
 		}
