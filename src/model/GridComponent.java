@@ -35,10 +35,10 @@ public class GridComponent extends JComponent {
 	 */
 	public GridComponent() {
 		// note: all ArrayLists are size 10 by default
+		sideLength = DEFAULT_SQUARE_SIZE;
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
-		sideLength = DEFAULT_SQUARE_SIZE;
-
+		
 		//activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
@@ -65,8 +65,9 @@ public class GridComponent extends JComponent {
 	 *            number of tiles in the vertical axis
 	 */
 	public GridComponent(int sizeX, int sizeY) {
-		width = (sizeX * 10); //+ 100; // +100 for debugging purpose
-		height = (sizeY * 10);// + 100; // +100 for debugging purpose
+		sideLength = DEFAULT_SQUARE_SIZE;
+		width = (sizeX * sideLength); //+ 100; // +100 for debugging purpose
+		height = (sizeY * sideLength);// + 100; // +100 for debugging purpose
 		//width = DEFAULT_WIDTH;
 		//height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
@@ -272,8 +273,8 @@ public class GridComponent extends JComponent {
 				// TODO remove test
 				// TODO remove active if not needed
 				currentSquare.setAlive(false);
-				System.out.println(
-						"changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
+				//System.out.println(
+				//"changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
 				// System.out.println(
 				// "removed activeSqs rectangle at point " + e.getPoint() + " "
 				// + currentSquare.toString());
@@ -292,8 +293,8 @@ public class GridComponent extends JComponent {
 				// TODO remove remove if not needed
 				currentSquare.setAlive(true);
 				// addActiveSquareOnGrid(currentSquare);
-				System.out.println(
-						"changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
+				//System.out.println(
+				//		"changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
 				// System.out
 				// .println("added activeSqs rectangle at point " + e.getPoint()
 				// + " " + currentSquare.toString());

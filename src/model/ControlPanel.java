@@ -97,8 +97,12 @@ public class ControlPanel extends JPanel {
 		setBackground(Color.WHITE);
 	}
 
+	// action Listeners
 	private void addActionListeners() {
 		startButton.addActionListener((ActionEvent e) -> {
+			startButton.setEnabled(false);
+			stepButton.setEnabled(false);
+			clearScreenButton.setEnabled(false);
 			GridComponent gc = frame.getGridC();
 			startPressed = true;
 			new Thread() {
@@ -128,6 +132,9 @@ public class ControlPanel extends JPanel {
 
 		stopButton.addActionListener((ActionEvent e) -> {
 			startPressed = false;
+			startButton.setEnabled(true);
+			stepButton.setEnabled(true);
+			clearScreenButton.setEnabled(true);
 		});
 
 		clearScreenButton.addActionListener((ActionEvent e) -> {
