@@ -31,7 +31,7 @@ TASK:
 
 
 CHANGELOG:
-- 08/09 - dokoncena mys rightclick, zatvorenie issue pri RulesForLifeCycle, zakazanie tlacidiel pri behu programu 
+- 09/08 - dokoncena mys rightclick, zatvorenie issue pri RulesForLifeCycle, zakazanie tlacidiel pri behu programu 
 - 09/01 - vyhodene menu. Vytvoreny ControlFrame, pridane buttony a slider, pridane akcie k nim, zakomentovane testy, spraveny beh programu 
 - 08/31 - vytvorene funkcne krokovanie + pravidla (nemenitelne, zatial)
 - 08/30 - vytvorene menu clear doplnene o step, formatovnie, zmenene pristupove identifikatory pri gridComponent, odstranene nepouzite metody 
