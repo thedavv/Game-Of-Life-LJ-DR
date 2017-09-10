@@ -104,10 +104,12 @@ public class GridComponent extends JComponent {
 				if (lsq.isAlive()) {
 					g2.setColor(new Color(59, 89, 182));
 					g2.fill(lsq);
-					g2.setColor(Color.BLACK);
+					g2.setColor(Color.WHITE);
 					g2.draw(lsq);
 				} else {
-					g2.setColor(Color.BLACK);
+					g2.setColor(Color.LIGHT_GRAY);
+					g2.fill(lsq);
+					g2.setColor(Color.WHITE);
 					g2.draw(lsq);
 				}
 			}
