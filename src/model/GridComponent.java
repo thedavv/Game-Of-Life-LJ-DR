@@ -25,7 +25,7 @@ public class GridComponent extends JComponent {
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
-	//private HashSet<LifeSquare> activeSqs;
+	// private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
 	// private LifeSquare currentFilledSquare;
@@ -39,7 +39,7 @@ public class GridComponent extends JComponent {
 		height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
 
-		//activeSqs = new HashSet<>();
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
 
@@ -65,13 +65,13 @@ public class GridComponent extends JComponent {
 	 *            number of tiles in the vertical axis
 	 */
 	public GridComponent(int sizeX, int sizeY) {
-		width = (sizeX * 10); //+ 100; // +100 for debugging purpose
-		height = (sizeY * 10);// + 100; // +100 for debugging purpose
-		//width = DEFAULT_WIDTH;
-		//height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
+		width = (sizeX * sideLength); // + 100; // +100 for debugging purpose
+		height = (sizeY * sideLength);// + 100; // +100 for debugging purpose
+		// width = DEFAULT_WIDTH;
+		// height = DEFAULT_HEIGHT;
 
-		//activeSqs = new HashSet<>();
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 
