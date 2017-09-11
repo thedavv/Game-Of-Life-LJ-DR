@@ -9,16 +9,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 public class GridComponent extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final int DEFAULT_WIDTH = 600;
-	private static final int DEFAULT_HEIGHT = 400;
+	private static final int DEFAULT_HEIGHT = 600;
 	private static final int DEFAULT_SQUARE_SIZE = 10;
 	private int width;
 	private int height;
@@ -26,7 +26,7 @@ public class GridComponent extends JComponent {
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
-	private HashSet<LifeSquare> activeSqs;
+	// private HashSet<LifeSquare> activeSqs;
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
 	// private LifeSquare currentFilledSquare;
@@ -36,11 +36,11 @@ public class GridComponent extends JComponent {
 	 */
 	public GridComponent() {
 		// note: all ArrayLists are size 10 by default
+		sideLength = DEFAULT_SQUARE_SIZE;
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
-		sideLength = DEFAULT_SQUARE_SIZE;
 
-		activeSqs = new HashSet<>();
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>();
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>();
 
@@ -66,11 +66,14 @@ public class GridComponent extends JComponent {
 	 *            number of tiles in the vertical axis
 	 */
 	public GridComponent(int sizeX, int sizeY) {
-		width = (sizeX * 10) + 100; // +100 for debugging purpose
-		height = (sizeY * 10) + 100; // +100 for debugging purpose
+		sideLength = DEFAULT_SQUARE_SIZE;
+		width = (sizeX * sideLength); // + 100; // +100 for debugging purpose
+		height = (sizeY * sideLength);// + 100; // +100 for debugging purpose
+		// width = DEFAULT_WIDTH;
+		// height = DEFAULT_HEIGHT;
 		sideLength = DEFAULT_SQUARE_SIZE;
 
-		activeSqs = new HashSet<>();
+		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 		sqGridTemp = new ArrayList<ArrayList<LifeSquare>>(sizeX);
 
@@ -99,7 +102,7 @@ public class GridComponent extends JComponent {
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
 				if (lsq.isAlive()) {
-					g2.setColor(Color.YELLOW);
+					g2.setColor(new Color(59, 89, 182));
 					g2.fill(lsq);
 					g2.setColor(Color.BLACK);
 					g2.draw(lsq);
@@ -268,15 +271,7 @@ public class GridComponent extends JComponent {
 		public void mouseClicked(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
-				// TODO remove test
-				// TODO remove active if not needed
 				currentSquare.setAlive(false);
-				System.out.println(
-						"changed Grid rectangle at point to inactive" + e.getPoint() + " " + currentSquare.toString());
-				// System.out.println(
-				// "removed activeSqs rectangle at point " + e.getPoint() + " "
-				// + currentSquare.toString());
-				// removeActiveSquareOnrid(currentSquare);
 				repaint();
 			}
 		}
@@ -287,15 +282,7 @@ public class GridComponent extends JComponent {
 			// TODO remove test
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && !currentSquare.isAlive()) {
-				// TODO remove test
-				// TODO remove remove if not needed
 				currentSquare.setAlive(true);
-				// addActiveSquareOnGrid(currentSquare);
-				System.out.println(
-						"changed Grid rectangle at point to active" + e.getPoint() + " " + currentSquare.toString());
-				// System.out
-				// .println("added activeSqs rectangle at point " + e.getPoint()
-				// + " " + currentSquare.toString());
 				repaint();
 			}
 		}
@@ -315,9 +302,10 @@ public class GridComponent extends JComponent {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
-
-			if (currentSquare != null && !currentSquare.isAlive()) {
+			if (currentSquare != null && !currentSquare.isAlive() && SwingUtilities.isLeftMouseButton(e)) {
 				currentSquare.setAlive(true);
+			} else if (currentSquare != null && currentSquare.isAlive() && SwingUtilities.isRightMouseButton(e)) {
+				currentSquare.setAlive(false);
 			}
 			repaint();
 		}
