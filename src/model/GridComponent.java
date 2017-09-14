@@ -67,11 +67,12 @@ public class GridComponent extends JComponent {
 	 */
 	public GridComponent(int sizeX, int sizeY) {
 		sideLength = DEFAULT_SQUARE_SIZE;
-		width = (sizeX * sideLength); // + 100; // +100 for debugging purpose
-		height = (sizeY * sideLength);// + 100; // +100 for debugging purpose
+		// + 1 needed to show some edge lines
+		width = (sizeX * sideLength) + 1;
+		height = (sizeY * sideLength) + 1;
+
 		// width = DEFAULT_WIDTH;
 		// height = DEFAULT_HEIGHT;
-		sideLength = DEFAULT_SQUARE_SIZE;
 
 		// activeSqs = new HashSet<>();
 		sqGrid = new ArrayList<ArrayList<LifeSquare>>(sizeX);
@@ -101,16 +102,19 @@ public class GridComponent extends JComponent {
 
 		for (ArrayList<LifeSquare> array : sqGrid) {
 			for (LifeSquare lsq : array) {
-				if (lsq.isAlive()) {
-					g2.setColor(new Color(59, 89, 182));
-					g2.fill(lsq);
-					g2.setColor(Color.BLACK);
-					g2.draw(lsq);
-				} else {
-					g2.setColor(Color.BLACK);
-					g2.draw(lsq);
-				}
+				g2.setColor((lsq.isAlive() ? Const.MAT_BLUE : Color.WHITE));
+				g2.fill(lsq);
+				g2.setColor(Const.PALE_GRAY);
+				g2.draw(lsq);
 			}
+		}
+		for (int x = 0; x < width; x += (10 * sideLength)) {
+			g2.setColor(Const.DIM_GRAY);
+			g2.drawLine(x, 0, x, height);
+		}
+		for (int y = 0; y < height; y += (10 * sideLength)) {
+			g2.setColor(Const.DIM_GRAY);
+			g2.drawLine(0, y, width, y);
 		}
 	}
 
@@ -133,7 +137,7 @@ public class GridComponent extends JComponent {
 	}
 
 	/**
-	 * Return the number of <b>active</b> neighbors of the given square,
+	 * Returns the number of <b>active</b> neighbors of the given square,
 	 * diagonal inclusive.
 	 * 
 	 * @param lsq
@@ -142,19 +146,35 @@ public class GridComponent extends JComponent {
 	 */
 	public int numOfActiveNeighbors(LifeSquare lsq) {
 		int count = 0;
+		int x;
+		int y;
 
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				try {
+					x = lsq.getCoorX() + i;
+					y = lsq.getCoorY() + j;
+					if (RulesForLifeCycle.wrapping) {
+						if (x < 0) {
+							x = sqGrid.size() - 1;
+						} else if (x >= sqGrid.size()) {
+							x = 0;
+						}
+						if (y < 0) {
+							y = (sqGrid.get(0).size()) - 1;
+						} else if (y >= sqGrid.get(0).size()) {
+							y = 0;
+						}
+					}
+
 					if (i == 0 & j == 0) {
-						// do nothing (e.i. the square would equal the lsq)
-					} else if (this.sqGrid.get((lsq.getCoorX()) + i).get((lsq.getCoorY()) + j).isAlive()) {
+						// do nothing (e.i. this square would equal the lsq)
+					} else if (this.sqGrid.get(x).get(y).isAlive()) {
 						count++;
 					}
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
-					// do nothing (no square exists at such a position
-					// e.printStackTrace();
+					// do nothing (no square exists at such a position)
 				}
 			}
 		}
@@ -257,6 +277,16 @@ public class GridComponent extends JComponent {
 
 	public void setSqGridTemp(ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
 		this.sqGridTemp = sqGridTemp;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
 	}
 
 	/**
