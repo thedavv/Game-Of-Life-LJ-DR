@@ -23,6 +23,15 @@ import java.util.List;
 public class RulesForLifeCycle {
 
 	/**
+	 * If enabled, it will wrap the grid edges together. Thus all squares on the
+	 * edges will treat squares on the opposite edge as 'adjecent'.
+	 * 
+	 * <p>
+	 * <b>False</b> by default.
+	 */
+	public static boolean wrapping = false;
+
+	/**
 	 * Method that returns true or false based on Game Of LifeRules Rules
 	 * 
 	 * @param numberOfNeighbors
@@ -167,18 +176,18 @@ public class RulesForLifeCycle {
 	// methods for checking corners
 	// x and y are the list coordinates of checked obj
 	private boolean isMostLeft(int x) {
-		return (x == 0);
+		return x == 0;
 	}
 
 	private boolean isMostRight(int x, int listSizeX) {
-		return (x == listSizeX);
+		return x == listSizeX;
 	}
 
 	private boolean isMostTop(int y) {
-		return (y == 0);
+		return y == 0;
 	}
 
 	private boolean isMostBot(int y, int listSizeY) {
-		return (y == listSizeY);
-	}
+		return y == listSizeY;
+s	}
 }
