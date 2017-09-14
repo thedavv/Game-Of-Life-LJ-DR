@@ -1,14 +1,13 @@
 package model;
 
 import java.awt.BorderLayout;
-//import java.awt.event.ActionEvent;
-//import java.util.Arrays;
-//import java.util.List;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
-//import javax.swing.JMenu;
-//import javax.swing.JMenuBar;
-//import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -18,10 +17,11 @@ public class GridFrame extends JFrame {
 	// create components
 	private GridComponent gridC = new GridComponent(120, 70);
 	private ControlPanel controlP = new ControlPanel(600, this);
+	private JPanel gridP = new JPanel();
 
 	// create menu
-	// private JMenuBar menuBar = new JMenuBar();
-	// private JMenu menu = new JMenu("Game Actions");
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu menu = new JMenu("Options");
 	// private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
 	// private JMenuItem start = new JMenuItem(menuItemsNames.get(1));
 	// private JMenuItem stop = new JMenuItem(menuItemsNames.get(2));
@@ -29,15 +29,19 @@ public class GridFrame extends JFrame {
 	// private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
-		// adding components to frame
 		// createMenuForGridFrame();
 		// setJMenuBar(menuBar);
+		addMenu();
 
-		add(gridC, BorderLayout.NORTH);
-		add(controlP, BorderLayout.CENTER);
+		gridP.setSize(gridC.getWidth(), gridC.getHeight());
+		gridP.add(gridC);
+		add(gridP, BorderLayout.CENTER);
+		// add(gridC, BorderLayout.NORTH);
+		add(controlP, BorderLayout.SOUTH);
 
 		// frame setup
 		pack();
+		setTitle("Game of Life");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// setResizable(false);
@@ -47,6 +51,19 @@ public class GridFrame extends JFrame {
 
 		// adding action listeners
 		// addMenuEventsToGridFrame();
+	}
+
+	private void addMenu() {
+		menu.setMnemonic(KeyEvent.VK_O);
+
+		JMenuItem exitItem = new JMenuItem("Exit");
+		exitItem.setMnemonic(KeyEvent.VK_W);
+		exitItem.setToolTipText("Exits the application");
+		exitItem.addActionListener(e -> System.exit(0));
+
+		menu.add(exitItem);
+		menuBar.add(menu);
+		setJMenuBar(menuBar);
 	}
 
 	/**

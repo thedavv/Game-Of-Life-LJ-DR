@@ -23,6 +23,15 @@ import java.util.List;
 public class RulesForLifeCycle {
 
 	/**
+	 * If enabled, it will wrap the grid edges together. Thus all squares on the
+	 * edges will treat squares on the opposite edge as 'adjecent'.
+	 * 
+	 * <p>
+	 * <b>False</b> by default.
+	 */
+	public static boolean wrapping = false;
+
+	/**
 	 * Method that returns true or false based on Game Of LifeRules Rules
 	 * 
 	 * @param numberOfNeighbors
@@ -54,7 +63,7 @@ public class RulesForLifeCycle {
 	}
 
 	// TODO dorobit na plochu, mozno lepsie riesenie
-	// TODO toto riesenie je natvrdo hadzane bez prehldavania
+	// TODO vymazat/prerobit
 	/**
 	 * Method that computes how many alive neighbors current cell/square has
 	 * from List of LifeSquares
@@ -63,6 +72,7 @@ public class RulesForLifeCycle {
 	 *            is the list of LifeSquares around tested LifeSquare
 	 * @return count of Alive neighbors
 	 */
+	@Deprecated
 	public int countAliveNeighbors(List<LifeSquare> areaAroundLifeSquare) {
 		int liveSquaresCount = 0;
 		for (LifeSquare lifeSquare : areaAroundLifeSquare) {
@@ -83,6 +93,7 @@ public class RulesForLifeCycle {
 	 *            is the tested grid
 	 * @return List<LifeSquare> surrounding the curentSquare
 	 */
+	@Deprecated
 	public List<LifeSquare> getAllLifeSquarestSurroundingSelectedSquare(LifeSquare currentSquare,
 			ArrayList<ArrayList<LifeSquare>> sqGrid) {
 		int listSizeX = sqGrid.get(0).size();
@@ -165,30 +176,18 @@ public class RulesForLifeCycle {
 	// methods for checking corners
 	// x and y are the list coordinates of checked obj
 	private boolean isMostLeft(int x) {
-		if (x == 0)
-			return true;
-
-		return false;
+		return x == 0;
 	}
 
 	private boolean isMostRight(int x, int listSizeX) {
-		if (x == listSizeX)
-			return true;
-
-		return false;
+		return x == listSizeX;
 	}
 
 	private boolean isMostTop(int y) {
-		if (y == 0)
-			return true;
-
-		return false;
+		return y == 0;
 	}
 
 	private boolean isMostBot(int y, int listSizeY) {
-		if (y == listSizeY)
-			return true;
-
-		return false;
+		return y == listSizeY;
 	}
 }
