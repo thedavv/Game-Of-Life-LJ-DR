@@ -18,7 +18,7 @@ public class GridFrame extends JFrame {
 	// create components
 	private GridComponent gridC = new GridComponent(60, 60);
 	private ControlPanel controlP = new ControlPanel(600, this);
-	private PatternsPanel paternP = new PatternsPanel();
+	private PatternsDialog paternP;
 
 	// create menu
 	private JMenuBar menuBar = new JMenuBar();
@@ -30,6 +30,8 @@ public class GridFrame extends JFrame {
 //	private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
+		paternP = new PatternsDialog(this,true);
+		
 		// adding components to frame
 		menu.add(patterns);
 		menuBar.add(menu);
@@ -48,7 +50,7 @@ public class GridFrame extends JFrame {
 		// gridC.printGrid();
 
 		// adding action listeners
-		//addMenuEventsToGridFrame();
+		addMenuEventsToGridFrame();
 	}
 
 
@@ -57,7 +59,7 @@ public class GridFrame extends JFrame {
 	 */
 	private void addMenuEventsToGridFrame() {
 		patterns.addActionListener((ActionEvent e) -> {
-			new PatternsPanel();
+			paternP.setVisible(true);
 		});
 //
 //		start.addActionListener((ActionEvent e) -> {

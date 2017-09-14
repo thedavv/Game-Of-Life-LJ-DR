@@ -167,18 +167,18 @@ public class RulesForLifeCycle {
 	// methods for checking corners
 	// x and y are the list coordinates of checked obj
 	private boolean isMostLeft(int x) {
-		return (x == 0) ? true : false;
+		return (x == 0);
 	}
 
 	private boolean isMostRight(int x, int listSizeX) {
-		return (x == listSizeX) ? true : false;
+		return (x == listSizeX);
 	}
 
 	private boolean isMostTop(int y) {
-		return (y == 0) ? true : false;
+		return (y == 0);
 	}
 
 	private boolean isMostBot(int y, int listSizeY) {
-		return (y == listSizeY) ? true : false;
+		return (y == listSizeY);
 	}
 }
