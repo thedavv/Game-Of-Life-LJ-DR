@@ -189,5 +189,5 @@ public class RulesForLifeCycle {
 
 	private boolean isMostBot(int y, int listSizeY) {
 		return y == listSizeY;
-s	}
+	}
 }
