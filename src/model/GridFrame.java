@@ -3,11 +3,13 @@ package model;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +19,7 @@ public class GridFrame extends JFrame {
 	// create components
 	private GridComponent gridC = new GridComponent(120, 70);
 	private ControlPanel controlP = new ControlPanel(600, this);
-	private JPanel gridP = new JPanel();
+	Box box = new Box(BoxLayout.Y_AXIS);
 
 	// create menu
 	private JMenuBar menuBar = new JMenuBar();
@@ -32,12 +34,19 @@ public class GridFrame extends JFrame {
 		// createMenuForGridFrame();
 		// setJMenuBar(menuBar);
 		addMenu();
-
-		gridP.setSize(gridC.getWidth(), gridC.getHeight());
-		gridP.add(gridC);
-		add(gridP, BorderLayout.CENTER);
-		// add(gridC, BorderLayout.NORTH);
 		add(controlP, BorderLayout.SOUTH);
+
+		box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		box.setAlignmentY(JComponent.CENTER_ALIGNMENT);
+		box.add(Box.createGlue());
+		add(box, BorderLayout.CENTER);
+		box.add(gridC);
+
+		// gridP.setSize(gridC.getWidth(), gridC.getHeight());
+
+		// add(gridC, BorderLayout.CENTER);
+		// add(gridP, BorderLayout.CENTER);
+		// add(gridC, BorderLayout.NORTH);
 
 		// frame setup
 		pack();

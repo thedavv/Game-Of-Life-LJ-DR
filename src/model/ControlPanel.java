@@ -5,11 +5,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
+import javax.swing.KeyStroke;
 
 public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = -8071333801420726916L;
@@ -28,7 +31,7 @@ public class ControlPanel extends JPanel {
 	private int panelWidth = DEFAULT_WIDTH;
 	private int panelHeight = DEFAULT_HEIGHT;
 	private GridFrame frame;
-	boolean startPressed = false; // TODO why is this not private?
+	private boolean startPressed = false;
 	private int numOfSteps = 1;
 
 	// buttons
@@ -45,8 +48,12 @@ public class ControlPanel extends JPanel {
 	public ControlPanel(GridFrame frame) {
 		this.frame = frame;
 		addComponentsToPanel();
-		setBackground(Color.WHITE);
 		addActionListeners();
+		setBackground(Color.WHITE);
+
+		// setFocusable(true);
+		// addHotkeys();
+		addKeybindings();
 	}
 
 	public ControlPanel(int panelWidth, GridFrame frame) {
@@ -55,6 +62,10 @@ public class ControlPanel extends JPanel {
 		addComponentsToPanel();
 		addActionListeners();
 		setBackground(Color.WHITE);
+
+		// setFocusable(true);
+		// addHotkeys();
+		addKeybindings();
 	}
 
 	@Override
@@ -87,13 +98,6 @@ public class ControlPanel extends JPanel {
 		customizeButton(clearScreenButton);
 		customizeButton(closeAppButton);
 
-		// TODO figure out a non-ALT solution
-		stepButton.setMnemonic(KeyEvent.VK_E);
-		startButton.setMnemonic(KeyEvent.VK_R);
-		stopButton.setMnemonic(KeyEvent.VK_S);
-		clearScreenButton.setMnemonic(KeyEvent.VK_C);
-		closeAppButton.setMnemonic(KeyEvent.VK_X);
-
 		add(stepButton);
 		add(startButton);
 		add(stopButton);
@@ -106,61 +110,154 @@ public class ControlPanel extends JPanel {
 		// setBackground(Color.WHITE);
 	}
 
-	// action Listeners
 	private void addActionListeners() {
-		startButton.addActionListener((ActionEvent e) -> {
-			startButton.setEnabled(false);
-			stepButton.setEnabled(false);
-			clearScreenButton.setEnabled(false);
-			GridComponent gc = frame.getGridC();
-			startPressed = true;
-			new Thread() {
-				@Override
-				public void run() {
-					while (startPressed) {
-						gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-						gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-						gc.resetGrid(gc.getSqGridTemp());
-						gc.repaint();
-						try {
-							sleep(101 - 10 * stepSpeedSlider.getValue());
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}.start();
-		});
+		startButton.addActionListener(e -> startButtonAction());
 
-		stepButton.addActionListener((ActionEvent e) -> {
-			for (int i = 0; i < numOfSteps; i++) {
-				GridComponent gc = frame.getGridC();
-				gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-				gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-				gc.resetGrid(gc.getSqGridTemp());
-				gc.repaint();
+		stepButton.addActionListener(e -> stepButtonAction());
+
+		stopButton.addActionListener(e -> stopButtonAction());
+
+		clearScreenButton.addActionListener(e -> clearButtonAction());
+
+		closeAppButton.addActionListener(e -> exitButtonAction());
+
+		stepSpeedSlider.addChangeListener(e -> {
+		});
+	}
+
+	@SuppressWarnings("serial")
+	private void addKeybindings() {
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("E"), "E pressed");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("R"), "R pressed");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"), "S pressed");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("C"), "C pressed");
+		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("X"), "X pressed");
+
+		this.getActionMap().put("E pressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (stepButton.isEnabled()) {
+					stepButtonAction();
+				}
 			}
 		});
-
-		stopButton.addActionListener((ActionEvent e) -> {
-			startPressed = false;
-			startButton.setEnabled(true);
-			stepButton.setEnabled(true);
-			clearScreenButton.setEnabled(true);
+		this.getActionMap().put("R pressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (startButton.isEnabled()) {
+					startButtonAction();
+				}
+			}
 		});
+		this.getActionMap().put("S pressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stopButtonAction();
+			}
+		});
+		this.getActionMap().put("C pressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clearScreenButton.isEnabled()) {
+					clearButtonAction();
+				}
+			}
+		});
+		this.getActionMap().put("X pressed", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exitButtonAction();
+			}
+		});
+	}
 
-		clearScreenButton.addActionListener((ActionEvent e) -> {
+	@Deprecated
+	private void addHotkeys() {
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_E) {
+					if (stepButton.isEnabled()) {
+						stepButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_R) {
+					if (startButton.isEnabled()) {
+						startButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					stopButtonAction();
+				}
+				if (e.getKeyCode() == KeyEvent.VK_C) {
+					if (clearScreenButton.isEnabled()) {
+						clearButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_X) {
+					exitButtonAction();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+	}
+
+	public void startButtonAction() {
+		startButton.setEnabled(false);
+		stepButton.setEnabled(false);
+		clearScreenButton.setEnabled(false);
+		GridComponent gc = frame.getGridC();
+		startPressed = true;
+		new Thread() {
+			@Override
+			public void run() {
+				while (startPressed) {
+					gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
+					gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
+					gc.resetGrid(gc.getSqGridTemp());
+					gc.repaint();
+					try {
+						sleep(101 - 10 * stepSpeedSlider.getValue());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+	}
+
+	public void stepButtonAction() {
+		for (int i = 0; i < numOfSteps; i++) {
 			GridComponent gc = frame.getGridC();
-			gc.resetGrid(gc.getSqGrid());
+			gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
+			gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
 			gc.resetGrid(gc.getSqGridTemp());
 			gc.repaint();
-		});
+		}
+	}
 
-		closeAppButton.addActionListener((ActionEvent e) -> {
-			frame.dispose();
-		});
+	public void stopButtonAction() {
+		startPressed = false;
+		startButton.setEnabled(true);
+		stepButton.setEnabled(true);
+		clearScreenButton.setEnabled(true);
+	}
 
-		stepSpeedSlider.addChangeListener((ChangeEvent e) -> {
-		});
+	public void clearButtonAction() {
+		GridComponent gc = frame.getGridC();
+		gc.resetGrid(gc.getSqGrid());
+		gc.resetGrid(gc.getSqGridTemp());
+		gc.repaint();
+	}
+
+	public void exitButtonAction() {
+		frame.dispose(); // System.exit(0);
 	}
 }
