@@ -1,15 +1,12 @@
 package model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
 
 public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = -8071333801420726916L;
@@ -28,7 +25,7 @@ public class ControlPanel extends JPanel {
 	private int panelWidth = DEFAULT_WIDTH;
 	private int panelHeight = DEFAULT_HEIGHT;
 	private GridFrame frame;
-	boolean startPressed = false; // TODO why is this not private?
+	private boolean startPressed = false; // TODO why is this not private?
 	private int numOfSteps = 1;
 
 	// buttons
@@ -43,18 +40,23 @@ public class ControlPanel extends JPanel {
 	private JSlider stepSpeedSlider = new JSlider();
 
 	public ControlPanel(GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
+		
 		addComponentsToPanel();
-		setBackground(Color.WHITE);
 		addActionListeners();
 	}
 
 	public ControlPanel(int panelWidth, GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
 		this.panelWidth = panelWidth;
+		
 		addComponentsToPanel();
 		addActionListeners();
-		setBackground(Color.WHITE);
+		
 	}
 
 	@Override
@@ -70,12 +72,12 @@ public class ControlPanel extends JPanel {
 		stepSpeedSlider.setPaintTicks(true);
 		stepSpeedSlider.setPaintLabels(true);
 		stepSpeedSlider.setValue(SPEED_INIT);
-		stepSpeedSlider.setBackground(Color.WHITE);
+		stepSpeedSlider.setBackground(Const.WHITE);
 	}
 
 	private void customizeButton(JButton b) {
 		b.setBackground(Const.MAT_BLUE);
-		b.setForeground(Color.WHITE);
+		b.setForeground(Const.WHITE);
 		b.setFocusPainted(false);
 		b.setFont(new Font("Tahoma", Font.BOLD, 12));
 	}
@@ -86,6 +88,7 @@ public class ControlPanel extends JPanel {
 		customizeButton(stopButton);
 		customizeButton(clearScreenButton);
 		customizeButton(closeAppButton);
+		createSlider();
 
 		// TODO figure out a non-ALT solution
 		stepButton.setMnemonic(KeyEvent.VK_E);
@@ -99,16 +102,12 @@ public class ControlPanel extends JPanel {
 		add(stopButton);
 		add(clearScreenButton);
 		add(closeAppButton);
-		createSlider();
-		// add(sliderLabel);
 		add(stepSpeedSlider);
-
-		// setBackground(Color.WHITE);
 	}
 
 	// action Listeners
 	private void addActionListeners() {
-		startButton.addActionListener((ActionEvent e) -> {
+		startButton.addActionListener(e -> {
 			startButton.setEnabled(false);
 			stepButton.setEnabled(false);
 			clearScreenButton.setEnabled(false);
@@ -132,7 +131,7 @@ public class ControlPanel extends JPanel {
 			}.start();
 		});
 
-		stepButton.addActionListener((ActionEvent e) -> {
+		stepButton.addActionListener(e -> {
 			for (int i = 0; i < numOfSteps; i++) {
 				GridComponent gc = frame.getGridC();
 				gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
@@ -142,25 +141,20 @@ public class ControlPanel extends JPanel {
 			}
 		});
 
-		stopButton.addActionListener((ActionEvent e) -> {
+		stopButton.addActionListener(e -> {
 			startPressed = false;
 			startButton.setEnabled(true);
 			stepButton.setEnabled(true);
 			clearScreenButton.setEnabled(true);
 		});
 
-		clearScreenButton.addActionListener((ActionEvent e) -> {
+		clearScreenButton.addActionListener(e -> {
 			GridComponent gc = frame.getGridC();
 			gc.resetGrid(gc.getSqGrid());
 			gc.resetGrid(gc.getSqGridTemp());
 			gc.repaint();
 		});
 
-		closeAppButton.addActionListener((ActionEvent e) -> {
-			frame.dispose();
-		});
-
-		stepSpeedSlider.addChangeListener((ChangeEvent e) -> {
-		});
+		closeAppButton.addActionListener(e -> System.exit(0));
 	}
 }
