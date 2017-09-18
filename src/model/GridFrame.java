@@ -1,43 +1,42 @@
 package model;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import dialog.PatternsDialog;
+
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	// "Start", "Stop", "Clear",
-	// "Exit Application");
 
 	// create components
-	private GridComponent gridC = new GridComponent(120, 70);
-	private ControlPanel controlP = new ControlPanel(600, this);
-	private JPanel gridP = new JPanel();
+	private GridComponent grigJComponent = new GridComponent(111, 50);
+	private ControlPanel controlJPanel = new ControlPanel(600, this);
+	 // TODO zmenit nazov
+	private JPanel gridPanel = new JPanel();
+	private PatternsDialog patternDialog = new PatternsDialog(); 
 
-	// create menu
-	private JMenuBar menuBar = new JMenuBar();
-	private JMenu menu = new JMenu("Options");
-	// private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
-	// private JMenuItem start = new JMenuItem(menuItemsNames.get(1));
-	// private JMenuItem stop = new JMenuItem(menuItemsNames.get(2));
-	// private JMenuItem clear = new JMenuItem(menuItemsNames.get(3));
-	// private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
+	// create menu components
+	private JMenuBar jMenuBar = new JMenuBar();
+	private JMenu optionsJMenu = new JMenu("Options");
+	private JMenu patternsMenu = new JMenu("Patterns");
+	private JMenuItem exitJMenuItem = new JMenuItem("Exit");
+	private JMenuItem patternsJMenuItem = new JMenuItem("Patter Chooser...");
 
 	public GridFrame() {
-		// createMenuForGridFrame();
-		// setJMenuBar(menuBar);
 		addMenu();
 
-		gridP.setSize(gridC.getWidth(), gridC.getHeight());
-		gridP.add(gridC);
-		add(gridP, BorderLayout.CENTER);
-		// add(gridC, BorderLayout.NORTH);
-		add(controlP, BorderLayout.SOUTH);
+		gridPanel.setSize(grigJComponent.getWidth(), grigJComponent.getHeight());
+		gridPanel.add(grigJComponent);
+		add(gridPanel, BorderLayout.CENTER);
+		add(controlJPanel, BorderLayout.SOUTH);
 
 		// frame setup
 		pack();
@@ -53,52 +52,31 @@ public class GridFrame extends JFrame {
 		// addMenuEventsToGridFrame();
 	}
 
+	// creates a menu with sub menus
+	// sets MenuBar for frame
 	private void addMenu() {
-		menu.setMnemonic(KeyEvent.VK_O);
 
-		JMenuItem exitItem = new JMenuItem("Exit");
-		exitItem.setMnemonic(KeyEvent.VK_W);
-		exitItem.setToolTipText("Exits the application");
-		exitItem.addActionListener(e -> System.exit(0));
-
-		menu.add(exitItem);
-		menuBar.add(menu);
-		setJMenuBar(menuBar);
+		exitJMenuItem.setMnemonic(KeyEvent.VK_W);
+		exitJMenuItem.setToolTipText("Exits the application");
+		exitJMenuItem.addActionListener(e -> System.exit(0));
+		
+		patternsJMenuItem.setMnemonic(KeyEvent.VK_P);
+		patternsJMenuItem.setToolTipText("Opens Pattern chooser dialog");
+		patternsJMenuItem.addActionListener(e -> patternDialog.setVisible(true));
+		
+		optionsJMenu.add(exitJMenuItem);
+		patternsMenu.add(patternsJMenuItem);
+		optionsJMenu.setMnemonic(KeyEvent.VK_O);
+		patternsJMenuItem.setMnemonic(KeyEvent.VK_N);
+		
+		jMenuBar.add(optionsJMenu);
+		jMenuBar.add(patternsMenu);
+		
+		setJMenuBar(jMenuBar);
 	}
-
-
-	// private void addMenuEventsToGridFrame() {
-	// step.addActionListener((ActionEvent e) -> {
-	// gridC.setSqGridTemp(gridC.createNextGeneration(gridC.getSqGrid(),
-	// gridC.getSqGridTemp()));
-	// gridC.setSqGrid(gridC.setNextGenerationAsCurrentGeneration(gridC.getSqGrid(),
-	// gridC.getSqGridTemp()));
-	// gridC.resetGrid(gridC.getSqGridTemp());
-	// gridC.repaint();
-	// });
-	//
-	// start.addActionListener((ActionEvent e) -> {
-	// // TODO dokoncit
-	// });
-	//
-	// stop.addActionListener((ActionEvent e) -> {
-	// // TODO dokoncit
-	// });
-	//
-	// exit.addActionListener((ActionEvent e) -> {
-	// dispose();
-	// });
-	//
-	// // TODO dokoncit pre druhe pole
-	// clear.addActionListener((ActionEvent e) -> {
-	// gridC.resetGrid(gridC.getSqGrid());
-	// gridC.resetGrid(gridC.getSqGridTemp());
-	// gridC.repaint();
-	// });
-	// }
-
+	
 	// G + S
 	public GridComponent getGridC() {
-		return gridC;
+		return grigJComponent;
 	}
 }
