@@ -2,21 +2,29 @@ package dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import dialog.patterns.Block;
+import dialog.patterns.PatternsFactory;
 import model.Const;
 import model.GridComponent;
 
@@ -37,13 +45,14 @@ public class PatternsDialog extends JDialog {
 	private List<JButton> bottomPanelButtons = new ArrayList<>();
 
 	// button names
+	private List<String> bottomPannelButtonNames = Arrays.asList("Accept", "Close");
 	private List<String> patternNames = Arrays.asList("Still Life", "Oscilators", "Spaceships", "Breeders",
 			"Paint Your Patern");
-	private List<String> bottomPannelButtonNames = Arrays.asList("Accept", "Close");
 	private List<String> stillLifePatterns = Arrays.asList("Block", "Beehive", "Loaf", "Boat", "Tub");
 	private List<String> oscilatorPatterns = Arrays.asList("Blinker", "Toad", "Beacon", "Pulsar", "Pentadecathon");
 	private List<String> spaceshipPatterns = Arrays.asList("Glider", "LWSS");
 	private List<String> breederPatterns = Arrays.asList("Gosper glider gun");
+	private Hashtable<String, List<String>> leftPanelButtonsHashTable = new Hashtable<>();
 
 	// panels
 	private TopPanel topJPanel = null;
@@ -53,7 +62,17 @@ public class PatternsDialog extends JDialog {
 	private CenterPanel centerJPanel = null;
 	private Container container = null;
 
-	public PatternsDialog() {
+	// helper variables
+	private String topPannelButtonPressedName = "Still Life";
+	private List<Integer[]> currentPattern = null;
+	GridComponent gridComponent = null;
+
+	// factory
+	private PatternsFactory patternFactory = new PatternsFactory();
+
+	public PatternsDialog(GridComponent gridComponent) {
+		this.gridComponent = gridComponent;
+		
 		setVisible(false);
 		setResizable(false);
 
@@ -69,8 +88,10 @@ public class PatternsDialog extends JDialog {
 		// add(centerJPanel, BorderLayout.CENTER);
 		// add(rightJPanel, BorderLayout.LINE_END);
 		// add(bottomJPanel, BorderLayout.PAGE_END);
+
 		add(container);
 		pack();
+
 	}
 
 	/**
@@ -108,6 +129,24 @@ public class PatternsDialog extends JDialog {
 	}
 
 	/**
+	 * Method adds Buttons to JPanel. It creates a riggid area between buttons
+	 * that is dimension size
+	 * 
+	 * @param dimension
+	 *            is the size of the rigid area between buttons
+	 * @param jPanelButtons
+	 *            is the List<JButton> where you have buttons you want to add to
+	 *            JPanel
+	 */
+	public void addButtonsToPanel(Dimension dimension, List<JButton> jPanelButtons) {
+		add(Box.createRigidArea(dimension));
+		for (JButton jButton : jPanelButtons) {
+			add(jButton);
+			add(Box.createRigidArea(new Dimension(dimension)));
+		}
+	}
+
+	/**
 	 * Returns this PatternsDialog
 	 * 
 	 * @return PatternsDialog
@@ -126,26 +165,75 @@ public class PatternsDialog extends JDialog {
 		private static final long serialVersionUID = -8459273757426477308L;
 
 		public LeftPanel() {
+			// link top buttons with left side buttons
+			leftPanelButtonsHashTable.put(patternNames.get(0), stillLifePatterns);
+			leftPanelButtonsHashTable.put(patternNames.get(1), oscilatorPatterns);
+			leftPanelButtonsHashTable.put(patternNames.get(2), spaceshipPatterns);
+			leftPanelButtonsHashTable.put(patternNames.get(3), breederPatterns);
+
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			setBackground(Const.BLURRY_WOOD);
 
 			// create buttons
-			addButtonsToList(stillLifePatterns, leftPanelButtons);
+			// this is initial creation it doesnt use createLeftPanelButtons
+			// method it uses parent addButtonsToList
+			addButtonsToList(leftPanelButtonsHashTable.get(patternNames.get(0)), leftPanelButtons);
 
 			// add buttons to pannel
-			add(Box.createRigidArea(new Dimension(X_LENGHT_OF_RIGID_AREA * 3, Y_LENGHT_OF_RIGID_AREA)));
-			for (JButton jButton : leftPanelButtons) {
-				add(jButton);
-				add(Box.createRigidArea(new Dimension(X_LENGHT_OF_RIGID_AREA * 3, X_LENGHT_OF_RIGID_AREA * 3)));
-			}
+			addButtonsToLeftPanel();
+
+			// add listeners
+			addActionListeners();
 
 			pack();
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+			// clear currentPattern list
+			if (currentPattern != null) {
+				currentPattern.clear();
+			}
+			
+			// add pattern to currentPattern
+			String pressedButtonName = e.getActionCommand();
+			switch (pressedButtonName) {
+			case "Block":
+				currentPattern = patternFactory.createPattern("Block").createPattern();
+				break;
 
+			default:
+				break;
+			}
+		}
+
+		/**
+		 * creates list with left panel buttons from leftPanelButtonsHashTable.
+		 * Its important that leftPanelHashKey String is Hash key in
+		 * leftPanelButtonsHashTable
+		 * 
+		 * @param leftPanelHashKey
+		 *            is the hash key in leftPanelButtonsHashTable
+		 */
+		public void createLeftPanelButtons(String leftPanelHashKey) {
+			addButtonsToList(leftPanelButtonsHashTable.get(topPannelButtonPressedName), leftPanelButtons);
+		}
+
+		/**
+		 * Adds buttons from leftPanelButtons to JPannel
+		 */
+		public void addButtonsToLeftPanel() {
+			add(Box.createRigidArea(new Dimension(X_LENGHT_OF_RIGID_AREA * 3, Y_LENGHT_OF_RIGID_AREA)));
+			for (JButton jButton : leftPanelButtons) {
+				add(jButton);
+				add(Box.createRigidArea(new Dimension(X_LENGHT_OF_RIGID_AREA * 3, X_LENGHT_OF_RIGID_AREA * 3)));
+			}
+		}
+
+		public void addActionListeners() {
+			for (JButton jButton : leftPanelButtons) {
+				jButton.addActionListener(this);
+			}
 		}
 	}
 
@@ -164,7 +252,7 @@ public class PatternsDialog extends JDialog {
 	}
 
 	/**
-	 * This class is used to create Top pannel and its buttons buttons. Buttons
+	 * This class is used to create TopPanel and its buttons buttons. Buttons
 	 * are ordered with Flow layout. Buttons change LeftPanel buttons.
 	 */
 	class TopPanel extends JPanel implements ActionListener {
@@ -199,15 +287,32 @@ public class PatternsDialog extends JDialog {
 				for (JButton b : topPanelButtons) {
 					if (b.equals(actionObj)) {
 						b.setEnabled(false);
+						topPannelButtonPressedName = e.getActionCommand();
+
+						// remove buttons
+						leftPanelButtons.clear();
+						leftJPanel.removeAll();
+
+						// add components
+						leftJPanel.createLeftPanelButtons(topPannelButtonPressedName);
+						leftJPanel.addButtonsToLeftPanel();
+						leftJPanel.addActionListeners();
+
+						// update panel
+						leftJPanel.revalidate();
+						leftJPanel.repaint();
 					} else {
 						b.setEnabled(true);
 					}
 				}
 			}
 		}
-
 	}
 
+	/**
+	 * This class is used to create BottomPanel and its buttons buttons. Buttons
+	 * are ordered with Box layout. Buttons commit or return to main frame
+	 */
 	class BottomPanel extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 4111518793729191748L;
 
@@ -235,18 +340,26 @@ public class PatternsDialog extends JDialog {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Object actionObj = e.getSource();
-			if (actionObj instanceof JButton) {
-				for (JButton b : bottomPanelButtons) {
-					if (b.getText().equals("Close")) {
-						getDialogInstance().setVisible(false);
-					}
-				}
-			}
+			String actionCommand = e.getActionCommand();
+			switch (actionCommand) {
+			case "Close":
+				getDialogInstance().setVisible(false);
+				break;
+			case "Accept":
+				gridComponent.setStoredPatternPositons(currentPattern);
+				JOptionPane.showMessageDialog(this, "Pattern Stored");
+				getDialogInstance().setVisible(false);
+				break;
 
+			default:
+				break;
+			}
 		}
 	}
 
+	/**
+	 * Center frame is for painting and showing current pattern
+	 */
 	class CenterPanel extends JPanel {
 		private static final long serialVersionUID = 4699926243224863908L;
 		private final static int DEFAULT_WIDTH = 510;
@@ -270,9 +383,11 @@ public class PatternsDialog extends JDialog {
 		public void setGrid(GridComponent comp) {
 			this.gridOfLifeSquares = comp;
 		}
-
 	}
 
+	/**
+	 * Container that holds all panels and puts them in Border Layout
+	 */
 	class Container extends JPanel {
 		private static final long serialVersionUID = -2127189115076318418L;
 
