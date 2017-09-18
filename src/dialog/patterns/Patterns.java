@@ -1,6 +1,6 @@
 package dialog.patterns;
 
-import model.GridComponent;
+import java.util.List;
 
 /**
  * Patterns that are in game of life must implement this interface.
@@ -15,10 +15,5 @@ public interface Patterns {
 	 *            is the patern type that we want to draw on GridComponent
 	 * @return changed GridComponent with patern
 	 */
-	public GridComponent createPattern(GridComponent grid, String patternType);
+	public List<Integer[]> createPattern();
 }
-
-//private String[]	  stillLifePatterns	= { "Block", "Beehive", "Loaf", "Boat", "Tub" };
-//private String[]	  oscilatorPatterns	= { "Blinker", "Toad", "Beacon", "Pulsar", "Pentadecathon" };
-//private String[]	  spaceshipPatterns	= { "Glider", "LWSS" };
-//private String[]	  breederPatterns	= { "Gosper glider gun" };
