@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -30,6 +31,9 @@ public class GridComponent extends JComponent {
 	// private ArrayList<LifeSquare> trackedSqs; //TODO future feature
 	private LifeSquare currentSquare;
 	// private LifeSquare currentFilledSquare;
+
+	private List<Integer[]> storedPatternPositons = null;
+
 
 	/**
 	 * Creates a 10x10 grid.
@@ -262,33 +266,6 @@ public class GridComponent extends JComponent {
 		return sqGrid;
 	}
 
-	// G + S
-	public ArrayList<ArrayList<LifeSquare>> getSqGrid() {
-		return sqGrid;
-	}
-
-	public void setSqGrid(ArrayList<ArrayList<LifeSquare>> sqGrid) {
-		this.sqGrid = sqGrid;
-	}
-
-	public ArrayList<ArrayList<LifeSquare>> getSqGridTemp() {
-		return sqGridTemp;
-	}
-
-	public void setSqGridTemp(ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
-		this.sqGridTemp = sqGridTemp;
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
-
 	/**
 	 * Adapter class for Mouse actions. Action include mouse clicked, mouse
 	 * pressed, mouse moved, mouse draged
@@ -299,11 +276,12 @@ public class GridComponent extends JComponent {
 		// from active squares when clicked 2+ times
 		@Override
 		public void mouseClicked(MouseEvent e) {
+
 			currentSquare = findSquare(e.getPoint());
 			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
 				currentSquare.setAlive(false);
-				repaint();
 			}
+			repaint();
 		}
 
 		// set activyty to presed title and add active square to actives
@@ -311,9 +289,14 @@ public class GridComponent extends JComponent {
 		public void mousePressed(MouseEvent e) {
 			// TODO remove test
 			currentSquare = findSquare(e.getPoint());
-			if (currentSquare != null && !currentSquare.isAlive()) {
+			if (currentSquare != null && !currentSquare.isAlive() && storedPatternPositons == null) {
 				currentSquare.setAlive(true);
 				repaint();
+			} else if (storedPatternPositons != null) {
+				for (Integer[] arrayList : storedPatternPositons) {
+					sqGrid.get(currentSquare.getCoorX() + arrayList[0]).get(currentSquare.getCoorY() + arrayList[1])
+							.setAlive(true);
+				}
 			}
 		}
 
@@ -321,6 +304,7 @@ public class GridComponent extends JComponent {
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
+
 			if (currentSquare != null && currentSquare.isAlive()) {
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			} else {
@@ -339,5 +323,40 @@ public class GridComponent extends JComponent {
 			}
 			repaint();
 		}
+	}
+
+	// G + S
+	public ArrayList<ArrayList<LifeSquare>> getSqGrid() {
+		return sqGrid;
+	}
+
+	public void setSqGrid(ArrayList<ArrayList<LifeSquare>> sqGrid) {
+		this.sqGrid = sqGrid;
+	}
+
+	public ArrayList<ArrayList<LifeSquare>> getSqGridTemp() {
+		return sqGridTemp;
+	}
+
+	public void setSqGridTemp(ArrayList<ArrayList<LifeSquare>> sqGridTemp) {
+		this.sqGridTemp = sqGridTemp;
+	}
+
+	public List<Integer[]> getStoredPatternPositons() {
+		return storedPatternPositons;
+	}
+
+	public void setStoredPatternPositons(List<Integer[]> storedPatternPositons) {
+		this.storedPatternPositons = storedPatternPositons;
+	}
+	
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
 	}
 }
