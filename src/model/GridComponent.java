@@ -9,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -33,7 +35,6 @@ public class GridComponent extends JComponent {
 	// private LifeSquare currentFilledSquare;
 
 	private List<Integer[]> storedPatternPositons = null;
-
 
 	/**
 	 * Creates a 10x10 grid.
@@ -287,17 +288,19 @@ public class GridComponent extends JComponent {
 		// set activyty to presed title and add active square to actives
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO remove test
 			currentSquare = findSquare(e.getPoint());
-			if (currentSquare != null && !currentSquare.isAlive() && storedPatternPositons == null) {
+			// no patern stored
+			if (currentSquare != null && !currentSquare.isAlive()
+					&& (storedPatternPositons == null || storedPatternPositons.isEmpty())) {
 				currentSquare.setAlive(true);
-				repaint();
-			} else if (storedPatternPositons != null) {
+				// pattern is stored
+			} else if (storedPatternPositons != null || !storedPatternPositons.isEmpty()) {
 				for (Integer[] arrayList : storedPatternPositons) {
 					sqGrid.get(currentSquare.getCoorX() + arrayList[0]).get(currentSquare.getCoorY() + arrayList[1])
 							.setAlive(true);
 				}
 			}
+			repaint();
 		}
 
 		// if mouse moves to an live square croshair changes
@@ -347,9 +350,13 @@ public class GridComponent extends JComponent {
 	}
 
 	public void setStoredPatternPositons(List<Integer[]> storedPatternPositons) {
-		this.storedPatternPositons = storedPatternPositons;
+		if (storedPatternPositons == null) {
+			storedPatternPositons = null;
+		} else {
+			this.storedPatternPositons = new ArrayList<>(storedPatternPositons);
+		}
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return width;
