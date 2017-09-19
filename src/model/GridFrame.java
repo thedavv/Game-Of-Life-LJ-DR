@@ -72,7 +72,7 @@ public class GridFrame extends JFrame {
 		
 		removeStoredPatternJMenuItem.setMnemonic(KeyEvent.VK_R);
 		removeStoredPatternJMenuItem.setToolTipText("Removes current stored pattern");
-		removeStoredPatternJMenuItem.addActionListener(e -> gridJComponent.setStoredPatternPositons(null));
+		removeStoredPatternJMenuItem.addActionListener(e -> gridJComponent.getStoredPatternPositons().clear());
 		
 		optionsJMenu.add(exitJMenuItem);
 		patternsMenu.add(patternsJMenuItem);
