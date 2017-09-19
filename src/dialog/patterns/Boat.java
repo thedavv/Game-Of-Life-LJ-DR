@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class Boat implements Pattern {
+public class Boat implements Pattern, ImagePattern {
 
 	@Override
 	public List<Integer[]> createPattern() {

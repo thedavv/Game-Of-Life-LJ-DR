@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class Loaf implements Pattern {
+public class Loaf implements Pattern ,ImagePattern{
 
 	@Override
 	public List<Integer[]> createPattern() {
