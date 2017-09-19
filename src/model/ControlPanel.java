@@ -1,14 +1,12 @@
 package model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
 
 public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = -8071333801420726916L;
@@ -27,32 +25,38 @@ public class ControlPanel extends JPanel {
 	private int panelWidth = DEFAULT_WIDTH;
 	private int panelHeight = DEFAULT_HEIGHT;
 	private GridFrame frame;
-	boolean startPressed = false;
+	private boolean startPressed = false; // TODO why is this not private?
+	private int numOfSteps = 1;
 
 	// buttons
-	private JButton stepButton = new JButton("Step");
-	private JButton startButton = new JButton("Start");
-	private JButton stopButton = new JButton("Stop");
-	private JButton clearScreenButton = new JButton("Clc");
-	private JButton closeAppButton = new JButton("Close");
+	private JButton stepButton = new JButton("<HTML>St<U>e</U>p</HTML>");
+	private JButton startButton = new JButton("<HTML><U>R</U>un</HTML>");
+	private JButton stopButton = new JButton("<HTML><U>S</U>top</HTML>");
+	private JButton clearScreenButton = new JButton("<HTML><U>C</U>lear</HTML>");
+	private JButton closeAppButton = new JButton("<HTML>E<U>x</U>it</HTML>");
 
 	// sliders
 	// JLabel sliderLabel = new JLabel("Game Speed", JLabel.CENTER);
 	private JSlider stepSpeedSlider = new JSlider();
 
 	public ControlPanel(GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
+		
 		addComponentsToPanel();
-		setBackground(Color.WHITE);
 		addActionListeners();
 	}
 
 	public ControlPanel(int panelWidth, GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
 		this.panelWidth = panelWidth;
+		
 		addComponentsToPanel();
 		addActionListeners();
-		setBackground(Color.WHITE);
+		
 	}
 
 	@Override
@@ -68,12 +72,12 @@ public class ControlPanel extends JPanel {
 		stepSpeedSlider.setPaintTicks(true);
 		stepSpeedSlider.setPaintLabels(true);
 		stepSpeedSlider.setValue(SPEED_INIT);
-		stepSpeedSlider.setBackground(Color.WHITE);
+		stepSpeedSlider.setBackground(Const.WHITE);
 	}
 
 	private void customizeButton(JButton b) {
-		b.setBackground(new Color(59, 89, 182));
-		b.setForeground(Color.WHITE);
+		b.setBackground(Const.MAT_BLUE);
+		b.setForeground(Const.WHITE);
 		b.setFocusPainted(false);
 		b.setFont(new Font("Tahoma", Font.BOLD, 12));
 	}
@@ -84,28 +88,33 @@ public class ControlPanel extends JPanel {
 		customizeButton(stopButton);
 		customizeButton(clearScreenButton);
 		customizeButton(closeAppButton);
+		createSlider();
+
+		// TODO figure out a non-ALT solution
+		stepButton.setMnemonic(KeyEvent.VK_E);
+		startButton.setMnemonic(KeyEvent.VK_R);
+		stopButton.setMnemonic(KeyEvent.VK_S);
+		clearScreenButton.setMnemonic(KeyEvent.VK_C);
+		closeAppButton.setMnemonic(KeyEvent.VK_X);
 
 		add(stepButton);
 		add(startButton);
 		add(stopButton);
 		add(clearScreenButton);
 		add(closeAppButton);
-		createSlider();
-		// add(sliderLabel);
 		add(stepSpeedSlider);
-
-		setBackground(Color.WHITE);
 	}
 
 	// action Listeners
 	private void addActionListeners() {
-		startButton.addActionListener((ActionEvent e) -> {
+		startButton.addActionListener(e -> {
 			startButton.setEnabled(false);
 			stepButton.setEnabled(false);
 			clearScreenButton.setEnabled(false);
 			GridComponent gc = frame.getGridC();
 			startPressed = true;
 			new Thread() {
+				@Override
 				public void run() {
 					while (startPressed) {
 						gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
@@ -122,33 +131,30 @@ public class ControlPanel extends JPanel {
 			}.start();
 		});
 
-		stepButton.addActionListener((ActionEvent e) -> {
-			GridComponent gc = frame.getGridC();
-			gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-			gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
-			gc.resetGrid(gc.getSqGridTemp());
-			gc.repaint();
+		stepButton.addActionListener(e -> {
+			for (int i = 0; i < numOfSteps; i++) {
+				GridComponent gc = frame.getGridC();
+				gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
+				gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
+				gc.resetGrid(gc.getSqGridTemp());
+				gc.repaint();
+			}
 		});
 
-		stopButton.addActionListener((ActionEvent e) -> {
+		stopButton.addActionListener(e -> {
 			startPressed = false;
 			startButton.setEnabled(true);
 			stepButton.setEnabled(true);
 			clearScreenButton.setEnabled(true);
 		});
 
-		clearScreenButton.addActionListener((ActionEvent e) -> {
+		clearScreenButton.addActionListener(e -> {
 			GridComponent gc = frame.getGridC();
 			gc.resetGrid(gc.getSqGrid());
 			gc.resetGrid(gc.getSqGridTemp());
 			gc.repaint();
 		});
-		
-		closeAppButton.addActionListener((ActionEvent e) -> {
-			frame.dispose();
-		});
 
-		stepSpeedSlider.addChangeListener((ChangeEvent e) -> {
-		});
+		closeAppButton.addActionListener(e -> System.exit(0));
 	}
 }
