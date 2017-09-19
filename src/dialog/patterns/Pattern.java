@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Patterns that are in game of life must implement this interface.
  */
-public interface Patterns {
+public interface Pattern {
 
 	/**
 	 * Creates pattern and stores position of active fields into List<Integer[]>

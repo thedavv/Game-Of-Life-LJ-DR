@@ -8,14 +8,12 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -25,8 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import dialog.patterns.Patterns;
-import dialog.patterns.PatternsFactory;
+import dialog.patterns.Pattern;
+import dialog.patterns.PatternFactory;
 import model.Const;
 import model.GridComponent;
 
@@ -72,10 +70,10 @@ public class PatternsDialog extends JDialog {
 	GridComponent gridComponent = null;
 
 	// factory
-	private PatternsFactory patternFactory = new PatternsFactory();
+	private PatternFactory patternFactory = new PatternFactory();
 
 	// patterns
-	private Patterns pattern = null;
+	private Pattern pattern = null;
 
 	public PatternsDialog(GridComponent gridComponent) {
 		this.gridComponent = gridComponent;
@@ -206,24 +204,46 @@ public class PatternsDialog extends JDialog {
 			String pressedButtonName = e.getActionCommand();
 			switch (pressedButtonName) {
 			case "Block":
-				pattern = patternFactory.createPattern("Block");
-				currentPattern = pattern.createPattern();
-				try {
-					centerJPanel.removeAll();
-					BufferedImage myPicture = pattern
-							.createImage("D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
-					JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-
-					centerJPanel.add(picLabel);
-					centerJPanel.revalidate();
-					centerJPanel.repaint();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
 				break;
-
+			case "Beehive":
+				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beehive.jpg");
+				break;
+			case "Loaf":
+				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/loaf.jpg");
+				break;
+			case "Boat":
+				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/boat.jpg");
+				break;
+			case "Tub":
+				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/tub.jpg");
+				break;
 			default:
 				break;
+			}
+		}
+
+		/**
+		 * Adds picture to centerPanel and stores pattern
+		 * 
+		 * @param patternName
+		 *            is the name of the pattern
+		 * @param picUrl
+		 *            is the url of picture
+		 */
+		private void createPattern(String patternName, String picUrl) {
+			pattern = patternFactory.createPattern(patternName);
+			currentPattern = pattern.createPattern();
+			try {
+				centerJPanel.removeAll();
+				BufferedImage myPicture = pattern.createImage(picUrl);
+				JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+
+				centerJPanel.add(picLabel);
+				centerJPanel.revalidate();
+				centerJPanel.repaint();
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 
@@ -306,12 +326,12 @@ public class PatternsDialog extends JDialog {
 			if (actionObj instanceof JButton) {
 				for (JButton b : topPanelButtons) {
 					if (b.equals(actionObj)) {
-						
+
 						// update center panel
 						centerJPanel.removeAll();
 						centerJPanel.repaint();
 						centerJPanel.revalidate();
-						
+
 						// if paint your own component is selected
 						if (e.getActionCommand() == patternNames.get(4)) {
 							// update
@@ -324,8 +344,7 @@ public class PatternsDialog extends JDialog {
 							centerJPanel.add(centerJPanel.getGrid());
 							centerJPanel.repaint();
 							centerJPanel.revalidate();
-							
-							
+
 						} else {
 							b.setEnabled(false);
 							topPannelButtonPressedName = e.getActionCommand();
