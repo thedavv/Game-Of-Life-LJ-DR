@@ -1,5 +1,7 @@
 package dialog.patterns;
 
+import model.GridComponent;
+
 public class PatternFactory {
 
 	public ImagePattern createImagePattern(String patternName) {
@@ -40,5 +42,9 @@ public class PatternFactory {
 		default:
 			return null;
 		}
+	}
+
+	public Pattern createCustomPattern(GridComponent grid){
+		return new CustomPatten(grid);
 	}
 }
