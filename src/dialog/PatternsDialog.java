@@ -2,28 +2,30 @@ package dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
-import dialog.patterns.Block;
+import dialog.patterns.Patterns;
 import dialog.patterns.PatternsFactory;
 import model.Const;
 import model.GridComponent;
@@ -35,9 +37,11 @@ import model.GridComponent;
 public class PatternsDialog extends JDialog {
 	private static final long serialVersionUID = 7434553908752139595L;
 
-	// default dimensions for rigid area
+	// default dimensions
 	private static final int X_LENGHT_OF_RIGID_AREA = 5;
 	private static final int Y_LENGHT_OF_RIGID_AREA = 50;
+	private static final int BUTTON_X_LENGHT = 150;
+	private static final int BUTTON_Y_LENGHT = 30;
 
 	// buttons
 	private List<JButton> topPanelButtons = new ArrayList<>();
@@ -45,7 +49,7 @@ public class PatternsDialog extends JDialog {
 	private List<JButton> bottomPanelButtons = new ArrayList<>();
 
 	// button names
-	private List<String> bottomPannelButtonNames = Arrays.asList("Accept", "Close");
+	private List<String> bottomPannelButtonNames = Arrays.asList("Store", "Close");
 	private List<String> patternNames = Arrays.asList("Still Life", "Oscilators", "Spaceships", "Breeders",
 			"Paint Your Patern");
 	private List<String> stillLifePatterns = Arrays.asList("Block", "Beehive", "Loaf", "Boat", "Tub");
@@ -70,9 +74,12 @@ public class PatternsDialog extends JDialog {
 	// factory
 	private PatternsFactory patternFactory = new PatternsFactory();
 
+	// patterns
+	private Patterns pattern = null;
+
 	public PatternsDialog(GridComponent gridComponent) {
 		this.gridComponent = gridComponent;
-		
+
 		setVisible(false);
 		setResizable(false);
 
@@ -108,9 +115,9 @@ public class PatternsDialog extends JDialog {
 		button.setFocusPainted(false);
 		button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		// for flow
-		button.setPreferredSize(new Dimension(150, 30));
+		button.setPreferredSize(new Dimension(BUTTON_X_LENGHT, BUTTON_Y_LENGHT));
 		// for box
-		button.setMaximumSize(new Dimension(150, 30));
+		button.setMaximumSize(new Dimension(BUTTON_X_LENGHT, BUTTON_Y_LENGHT));
 		return button;
 	}
 
@@ -194,12 +201,25 @@ public class PatternsDialog extends JDialog {
 			if (currentPattern != null) {
 				currentPattern.clear();
 			}
-			
+
 			// add pattern to currentPattern
 			String pressedButtonName = e.getActionCommand();
 			switch (pressedButtonName) {
 			case "Block":
-				currentPattern = patternFactory.createPattern("Block").createPattern();
+				pattern = patternFactory.createPattern("Block");
+				currentPattern = pattern.createPattern();
+				try {
+					centerJPanel.removeAll();
+					BufferedImage myPicture = pattern
+							.createImage("D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
+					JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+
+					centerJPanel.add(picLabel);
+					centerJPanel.revalidate();
+					centerJPanel.repaint();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				break;
 
 			default:
@@ -286,21 +306,43 @@ public class PatternsDialog extends JDialog {
 			if (actionObj instanceof JButton) {
 				for (JButton b : topPanelButtons) {
 					if (b.equals(actionObj)) {
-						b.setEnabled(false);
-						topPannelButtonPressedName = e.getActionCommand();
+						
+						// update center panel
+						centerJPanel.removeAll();
+						centerJPanel.repaint();
+						centerJPanel.revalidate();
+						
+						// if paint your own component is selected
+						if (e.getActionCommand() == patternNames.get(4)) {
+							// update
+							leftPanelButtons.clear();
+							leftJPanel.removeAll();
+							leftJPanel.revalidate();
+							leftJPanel.repaint();
 
-						// remove buttons
-						leftPanelButtons.clear();
-						leftJPanel.removeAll();
+							// update center panel
+							centerJPanel.add(centerJPanel.getGrid());
+							centerJPanel.repaint();
+							centerJPanel.revalidate();
+							
+							
+						} else {
+							b.setEnabled(false);
+							topPannelButtonPressedName = e.getActionCommand();
 
-						// add components
-						leftJPanel.createLeftPanelButtons(topPannelButtonPressedName);
-						leftJPanel.addButtonsToLeftPanel();
-						leftJPanel.addActionListeners();
+							// remove buttons from left panel
+							leftPanelButtons.clear();
+							leftJPanel.removeAll();
 
-						// update panel
-						leftJPanel.revalidate();
-						leftJPanel.repaint();
+							// add components to left panel
+							leftJPanel.createLeftPanelButtons(topPannelButtonPressedName);
+							leftJPanel.addButtonsToLeftPanel();
+							leftJPanel.addActionListeners();
+
+							// update left panel
+							leftJPanel.revalidate();
+							leftJPanel.repaint();
+						}
 					} else {
 						b.setEnabled(true);
 					}
@@ -345,10 +387,18 @@ public class PatternsDialog extends JDialog {
 			case "Close":
 				getDialogInstance().setVisible(false);
 				break;
-			case "Accept":
-				gridComponent.setStoredPatternPositons(currentPattern);
-				JOptionPane.showMessageDialog(this, "Pattern Stored");
-				getDialogInstance().setVisible(false);
+			case "Store":
+				if (currentPattern != null) {
+					if (!currentPattern.isEmpty()) {
+						gridComponent.setStoredPatternPositons(currentPattern);
+						currentPattern.clear();
+						JOptionPane.showMessageDialog(this, "Pattern Stored, press close to return");
+					} else {
+						JOptionPane.showMessageDialog(this, "Nothing Stored, select Pattern");
+					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Nothing Stored, select Pattern");
+				}
 				break;
 
 			default:
@@ -362,9 +412,9 @@ public class PatternsDialog extends JDialog {
 	 */
 	class CenterPanel extends JPanel {
 		private static final long serialVersionUID = 4699926243224863908L;
-		private final static int DEFAULT_WIDTH = 510;
-		private final static int DEFAULT_HEIGHT = 510;
-		private GridComponent gridOfLifeSquares = new GridComponent(50, 50);
+		private final static int DEFAULT_WIDTH = 300;
+		private final static int DEFAULT_HEIGHT = 300;
+		private GridComponent gridOfLifeSquares = new GridComponent(30, 30);
 
 		CenterPanel() {
 			setBackground(Const.BLURRY_WOOD);
