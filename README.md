@@ -31,6 +31,7 @@ TASK:
 
 
 CHANGELOG:
+ -19/09 - added Dialog for patterns
 - 14/09 
 	- added alignment for gridC (to stay in centre)
 	- added hotkeys for the base buttons (TODO: needs to remove ALT modifier)
