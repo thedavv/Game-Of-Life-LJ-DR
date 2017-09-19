@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import dialog.patterns.GifPattern;
+import dialog.patterns.ImagePattern;
 import dialog.patterns.Pattern;
 import dialog.patterns.PatternFactory;
 import model.Const;
@@ -67,13 +70,15 @@ public class PatternsDialog extends JDialog {
 	// helper variables
 	private String topPannelButtonPressedName = "Still Life";
 	private List<Integer[]> currentPattern = null;
-	GridComponent gridComponent = null;
+	private GridComponent gridComponent = null;
 
 	// factory
 	private PatternFactory patternFactory = new PatternFactory();
 
 	// patterns
 	private Pattern pattern = null;
+	private ImagePattern patternImage = null;
+	private GifPattern patternGif = null;
 
 	public PatternsDialog(GridComponent gridComponent) {
 		this.gridComponent = gridComponent;
@@ -204,19 +209,44 @@ public class PatternsDialog extends JDialog {
 			String pressedButtonName = e.getActionCommand();
 			switch (pressedButtonName) {
 			case "Block":
-				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
 				break;
 			case "Beehive":
-				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beehive.jpg");
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beehive.jpg");
 				break;
 			case "Loaf":
-				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/loaf.jpg");
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/loaf.jpg");
 				break;
 			case "Boat":
-				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/boat.jpg");
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/boat.jpg");
 				break;
 			case "Tub":
-				createPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/tub.jpg");
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/tub.jpg");
+				break;
+			case "Blinker":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/blinker.gif");
+				break;
+			case "Toad":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/toad.gif");
+				break;
+			case "Beacon":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beacon.gif");
+				break;
+			case "Pulsar":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/pulsar.gif");
+				break;
+			case "Pentadecathon":
+				createGifPattern(pressedButtonName,
+						"D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/pentadecathlon.gif");
+				break;
+			case "Glider":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/glider.gif");
+				break;
+			case "LWSS":
+				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/LWSS.gif");
+				break;
+			case "Gosper glider gun":
+				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/breeder.png");
 				break;
 			default:
 				break;
@@ -231,12 +261,14 @@ public class PatternsDialog extends JDialog {
 		 * @param picUrl
 		 *            is the url of picture
 		 */
-		private void createPattern(String patternName, String picUrl) {
-			pattern = patternFactory.createPattern(patternName);
+		private void creatImgPattern(String patternName, String picUrl) {
+			pattern = patternFactory.createImagePattern(patternName);
+			patternImage = patternFactory.createImagePattern(patternName);
 			currentPattern = pattern.createPattern();
 			try {
 				centerJPanel.removeAll();
-				BufferedImage myPicture = pattern.createImage(picUrl);
+
+				BufferedImage myPicture = patternImage.createImage(picUrl);
 				JLabel picLabel = new JLabel(new ImageIcon(myPicture));
 
 				centerJPanel.add(picLabel);
@@ -245,6 +277,21 @@ public class PatternsDialog extends JDialog {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+		}
+
+		private void createGifPattern(String patternName, String picUrl) {
+			pattern = patternFactory.createGifPattern(patternName);
+			patternGif = patternFactory.createGifPattern(patternName);
+			currentPattern = pattern.createPattern();
+
+			centerJPanel.removeAll();
+
+			Icon myGif = patternGif.createGif(picUrl);
+			JLabel gifLabel = new JLabel(myGif);
+
+			centerJPanel.add(gifLabel);
+			centerJPanel.revalidate();
+			centerJPanel.repaint();
 		}
 
 		/**
