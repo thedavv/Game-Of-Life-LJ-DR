@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class Block implements Pattern {
+public class Boat implements Pattern {
 
 	@Override
 	public List<Integer[]> createPattern() {
@@ -16,7 +16,8 @@ public class Block implements Pattern {
 		storedPatternPositons.add(new Integer[] { 0, 0 });
 		storedPatternPositons.add(new Integer[] { 0, 1 });
 		storedPatternPositons.add(new Integer[] { 1, 0 });
-		storedPatternPositons.add(new Integer[] { 1, 1 });
+		storedPatternPositons.add(new Integer[] { 1, 2 });
+		storedPatternPositons.add(new Integer[] { 2, 1 });
 
 		return storedPatternPositons;
 	}

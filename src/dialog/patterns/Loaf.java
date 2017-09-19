@@ -8,15 +8,18 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class Block implements Pattern {
+public class Loaf implements Pattern {
 
 	@Override
 	public List<Integer[]> createPattern() {
 		List<Integer[]> storedPatternPositons = new ArrayList<>();
-		storedPatternPositons.add(new Integer[] { 0, 0 });
 		storedPatternPositons.add(new Integer[] { 0, 1 });
+		storedPatternPositons.add(new Integer[] { 0, 2 });
 		storedPatternPositons.add(new Integer[] { 1, 0 });
-		storedPatternPositons.add(new Integer[] { 1, 1 });
+		storedPatternPositons.add(new Integer[] { 1, 3 });
+		storedPatternPositons.add(new Integer[] { 2, 1 });
+		storedPatternPositons.add(new Integer[] { 2, 3 });
+		storedPatternPositons.add(new Integer[] { 3, 2 });
 
 		return storedPatternPositons;
 	}
@@ -26,4 +29,5 @@ public class Block implements Pattern {
 		BufferedImage image = ImageIO.read(new File(path));
 		return image;
 	}
+
 }
