@@ -57,6 +57,8 @@ public class PatternsDialog extends JDialog {
 	private List<String> oscilatorPatterns = Arrays.asList("Blinker", "Toad", "Beacon", "Pulsar", "Pentadecathon");
 	private List<String> spaceshipPatterns = Arrays.asList("Glider", "LWSS");
 	private List<String> breederPatterns = Arrays.asList("Gosper glider gun");
+	private List<String> customPatterns = Arrays.asList("Show grid");
+
 	private Hashtable<String, List<String>> leftPanelButtonsHashTable = new Hashtable<>();
 
 	// panels
@@ -77,6 +79,7 @@ public class PatternsDialog extends JDialog {
 
 	// patterns
 	private Pattern pattern = null;
+	private Pattern customPattern = null;
 	private ImagePattern patternImage = null;
 	private GifPattern patternGif = null;
 
@@ -180,6 +183,7 @@ public class PatternsDialog extends JDialog {
 			leftPanelButtonsHashTable.put(patternNames.get(1), oscilatorPatterns);
 			leftPanelButtonsHashTable.put(patternNames.get(2), spaceshipPatterns);
 			leftPanelButtonsHashTable.put(patternNames.get(3), breederPatterns);
+			leftPanelButtonsHashTable.put(patternNames.get(4), customPatterns);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			setBackground(Const.BLURRY_WOOD);
@@ -248,6 +252,9 @@ public class PatternsDialog extends JDialog {
 			case "Gosper glider gun":
 				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/breeder.png");
 				break;
+			case "Show grid":
+				createGridPattern();
+				break;
 			default:
 				break;
 			}
@@ -290,6 +297,17 @@ public class PatternsDialog extends JDialog {
 			JLabel gifLabel = new JLabel(myGif);
 
 			centerJPanel.add(gifLabel);
+			centerJPanel.revalidate();
+			centerJPanel.repaint();
+		}
+
+		private void createGridPattern() {
+			customPattern = patternFactory.createCustomPattern(centerJPanel.getGrid());
+			currentPattern = customPattern.createPattern();
+			
+			centerJPanel.removeAll();
+			
+			centerJPanel.add(centerJPanel.getGrid());
 			centerJPanel.revalidate();
 			centerJPanel.repaint();
 		}
@@ -373,6 +391,7 @@ public class PatternsDialog extends JDialog {
 			if (actionObj instanceof JButton) {
 				for (JButton b : topPanelButtons) {
 					if (b.equals(actionObj)) {
+						topPannelButtonPressedName = e.getActionCommand();
 
 						// update center panel
 						centerJPanel.removeAll();
@@ -380,35 +399,20 @@ public class PatternsDialog extends JDialog {
 						centerJPanel.revalidate();
 
 						// if paint your own component is selected
-						if (e.getActionCommand() == patternNames.get(4)) {
-							// update
-							leftPanelButtons.clear();
-							leftJPanel.removeAll();
-							leftJPanel.revalidate();
-							leftJPanel.repaint();
+						b.setEnabled(false);
 
-							// update center panel
-							centerJPanel.add(centerJPanel.getGrid());
-							centerJPanel.repaint();
-							centerJPanel.revalidate();
+						// remove buttons from left panel
+						leftPanelButtons.clear();
+						leftJPanel.removeAll();
 
-						} else {
-							b.setEnabled(false);
-							topPannelButtonPressedName = e.getActionCommand();
+						// add components to left panel
+						leftJPanel.createLeftPanelButtons(topPannelButtonPressedName);
+						leftJPanel.addButtonsToLeftPanel();
+						leftJPanel.addActionListeners();
 
-							// remove buttons from left panel
-							leftPanelButtons.clear();
-							leftJPanel.removeAll();
-
-							// add components to left panel
-							leftJPanel.createLeftPanelButtons(topPannelButtonPressedName);
-							leftJPanel.addButtonsToLeftPanel();
-							leftJPanel.addActionListeners();
-
-							// update left panel
-							leftJPanel.revalidate();
-							leftJPanel.repaint();
-						}
+						// update left panel
+						leftJPanel.revalidate();
+						leftJPanel.repaint();
 					} else {
 						b.setEnabled(true);
 					}
@@ -456,8 +460,14 @@ public class PatternsDialog extends JDialog {
 			case "Store":
 				if (currentPattern != null) {
 					if (!currentPattern.isEmpty()) {
-						gridComponent.setStoredPatternPositons(currentPattern);
-						currentPattern.clear();
+						if (topPannelButtonPressedName == patternNames.get(4)) {
+							currentPattern = customPattern.createPattern();
+							gridComponent.setStoredPatternPositons(currentPattern);
+							currentPattern.clear();
+						} else {
+							gridComponent.setStoredPatternPositons(currentPattern);
+							currentPattern.clear();
+						}
 						JOptionPane.showMessageDialog(this, "Pattern Stored, press close to return");
 					} else {
 						JOptionPane.showMessageDialog(this, "Nothing Stored, select Pattern");
@@ -484,7 +494,6 @@ public class PatternsDialog extends JDialog {
 
 		CenterPanel() {
 			setBackground(Const.BLURRY_WOOD);
-			add(gridOfLifeSquares);
 		}
 
 		@Override
