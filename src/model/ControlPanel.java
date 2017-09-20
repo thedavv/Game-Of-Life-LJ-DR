@@ -168,44 +168,6 @@ public class ControlPanel extends JPanel {
 			}
 		});
 	}
-  
-	@Deprecated
-	private void addHotkeys() {
-		addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_E) {
-					if (stepButton.isEnabled()) {
-						stepButtonAction();
-					}
-				}
-				if (e.getKeyCode() == KeyEvent.VK_R) {
-					if (startButton.isEnabled()) {
-						startButtonAction();
-					}
-				}
-				if (e.getKeyCode() == KeyEvent.VK_S) {
-					stopButtonAction();
-				}
-				if (e.getKeyCode() == KeyEvent.VK_C) {
-					if (clearScreenButton.isEnabled()) {
-						clearButtonAction();
-					}
-				}
-				if (e.getKeyCode() == KeyEvent.VK_X) {
-					exitButtonAction();
-				}
-			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-		});
-	}
 
 	public void startButtonAction() {
 		startButton.setEnabled(false);
@@ -256,6 +218,6 @@ public class ControlPanel extends JPanel {
 	}
 
 	public void exitButtonAction() {
-		frame.dispose(); // System.exit(0);
+		System.exit(0);
 	}
 }
