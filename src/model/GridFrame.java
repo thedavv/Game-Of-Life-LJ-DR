@@ -5,61 +5,45 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	// "Start", "Stop", "Clear",
-	// "Exit Application");
 
-	// create components
-	private GridComponent gridC = new GridComponent(120, 70);
-	private ControlPanel controlP = new ControlPanel(600, this);
+	private GridComponent gridComponent = new GridComponent(120, 70);
+	private ControlPanel controlPanel = new ControlPanel(600, this);
+	private JPanel gridPanel = new JPanel();
 	Box box = new Box(BoxLayout.Y_AXIS);
 
-	// create menu
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu = new JMenu("Options");
-	// private JMenuItem step = new JMenuItem(menuItemsNames.get(0));
-	// private JMenuItem start = new JMenuItem(menuItemsNames.get(1));
-	// private JMenuItem stop = new JMenuItem(menuItemsNames.get(2));
-	// private JMenuItem clear = new JMenuItem(menuItemsNames.get(3));
-	// private JMenuItem exit = new JMenuItem(menuItemsNames.get(4));
 
 	public GridFrame() {
-		// createMenuForGridFrame();
-		// setJMenuBar(menuBar);
 		addMenu();
-		add(controlP, BorderLayout.SOUTH);
 
-		box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-		box.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-		box.add(Box.createGlue());
+		add(controlPanel, BorderLayout.SOUTH);
+		gridPanel.add(gridComponent);
+		// add(gridPanel, BorderLayout.CENTER);
+
+		// box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+		// box.setAlignmentY(JComponent.CENTER_ALIGNMENT);
 		add(box, BorderLayout.CENTER);
-		box.add(gridC);
+		box.add(Box.createVerticalGlue());
+		box.add(gridPanel);
+		// box.add(Box.createVerticalGlue());
 
-		// gridP.setSize(gridC.getWidth(), gridC.getHeight());
+		// add(gridComponent, BorderLayout.NORTH);
+		// box.add(controlPanel);
 
-		// add(gridC, BorderLayout.CENTER);
-		// add(gridP, BorderLayout.CENTER);
-		// add(gridC, BorderLayout.NORTH);
-
-		// frame setup
 		pack();
 		setTitle("Game of Life");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		// setResizable(false);
-
-		// test grid
-		// gridC.printGrid();
-
-		// adding action listeners
-		// addMenuEventsToGridFrame();
 	}
 
 	private void addMenu() {
@@ -124,6 +108,6 @@ public class GridFrame extends JFrame {
 
 	// G + S
 	public GridComponent getGridC() {
-		return gridC;
+		return gridComponent;
 	}
 }
