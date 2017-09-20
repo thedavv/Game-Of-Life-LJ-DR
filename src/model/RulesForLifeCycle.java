@@ -24,7 +24,7 @@ public class RulesForLifeCycle {
 
 	/**
 	 * If enabled, it will wrap the grid edges together. Thus all squares on the
-	 * edges will treat squares on the opposite edge as 'adjecent'.
+	 * edges will treat squares on the opposite edge as 'adjacent'.
 	 * 
 	 * <p>
 	 * <b>False</b> by default.

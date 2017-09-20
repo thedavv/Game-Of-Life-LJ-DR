@@ -16,14 +16,15 @@ import dialog.PatternsDialog;
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	// create components
-	private GridComponent gridJComponent = new GridComponent(110,50 );
-	private ControlPanel controlJPanel = new ControlPanel(600, this);
-	 // TODO zmenit nazov
-	private PatternsDialog patternDialog = new PatternsDialog(gridJComponent); 
-
-	// create menu components
-	private JMenuBar jMenuBar = new JMenuBar();
+	private GridComponent gridComponent = new GridComponent(120, 70);
+	private ControlPanel controlPanel = new ControlPanel(600, this);
+	private JPanel gridPanel = new JPanel();
+	Box box = new Box(BoxLayout.Y_AXIS);
+   
+  // TODO zmenit nazov
+  private PatternsDialog patternDialog = new PatternsDialog(gridJComponent);
+  // create menu components
+	private JMenuBar menuBar = new JMenuBar();
 	private JMenu optionsJMenu = new JMenu("Options");
 	private JMenu patternsMenu = new JMenu("Patterns");
 	private JMenuItem exitJMenuItem = new JMenuItem("Exit");
@@ -33,6 +34,7 @@ public class GridFrame extends JFrame {
 	public GridFrame() {
 		addMenu();
 
+
 		Box box = new Box(BoxLayout.Y_AXIS);
 		box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		box.setAlignmentY(JComponent.CENTER_ALIGNMENT);
@@ -41,21 +43,22 @@ public class GridFrame extends JFrame {
 		add(box, BorderLayout.CENTER);
 		add(controlJPanel, BorderLayout.SOUTH);
 		
-//		add(grigJComponent, BorderLayout.CENTER);
-//		add(controlJPanel, BorderLayout.SOUTH);
+//	X	add(grigJComponent, BorderLayout.CENTER);
+//	X	add(controlJPanel, BorderLayout.SOUTH);
+    
+		//add(controlPanel, BorderLayout.SOUTH);
+		//gridPanel.add(gridComponent);
+		//add(box, BorderLayout.CENTER);
+		//box.add(Box.createVerticalGlue());
+		//box.add(gridPanel);
 
-		// frame setup
 		pack();
 		setTitle("Game of Life");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+    
+    // comment out
 		setResizable(false);
-
-		// test grid
-		// gridC.printGrid();
-
-		// adding action listeners
-		// addMenuEventsToGridFrame();
 	}
 
 	// creates a menu with sub menus
