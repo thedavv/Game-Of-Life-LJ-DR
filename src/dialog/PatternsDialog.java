@@ -119,6 +119,7 @@ public class PatternsDialog extends JDialog {
 		button.setBackground(Const.MAT_BLUE);
 		button.setForeground(Color.WHITE);
 		button.setFocusPainted(false);
+		// TODO export font into Const
 		button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		// for flow
 		button.setPreferredSize(new Dimension(BUTTON_X_LENGHT, BUTTON_Y_LENGHT));
@@ -186,6 +187,7 @@ public class PatternsDialog extends JDialog {
 			leftPanelButtonsHashTable.put(patternNames.get(4), customPatterns);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			// TODO alter color
 			setBackground(Const.BLURRY_WOOD);
 
 			// create buttons
@@ -213,44 +215,43 @@ public class PatternsDialog extends JDialog {
 			String pressedButtonName = e.getActionCommand();
 			switch (pressedButtonName) {
 			case "Block":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/block.jpg");
+				creatImgPattern(pressedButtonName, "resources/block.jpg");
 				break;
 			case "Beehive":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beehive.jpg");
+				creatImgPattern(pressedButtonName, "resources/beehive.jpg");
 				break;
 			case "Loaf":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/loaf.jpg");
+				creatImgPattern(pressedButtonName, "resources/loaf.jpg");
 				break;
 			case "Boat":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/boat.jpg");
+				creatImgPattern(pressedButtonName, "resources/boat.jpg");
 				break;
 			case "Tub":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/tub.jpg");
+				creatImgPattern(pressedButtonName, "resources/tub.jpg");
 				break;
 			case "Blinker":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/blinker.gif");
+				createGifPattern(pressedButtonName, "resources/blinker.gif");
 				break;
 			case "Toad":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/toad.gif");
+				createGifPattern(pressedButtonName, "resources/toad.gif");
 				break;
 			case "Beacon":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/beacon.gif");
+				createGifPattern(pressedButtonName, "resources/beacon.gif");
 				break;
 			case "Pulsar":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/pulsar.gif");
+				createGifPattern(pressedButtonName, "resources/pulsar.gif");
 				break;
 			case "Pentadecathon":
-				createGifPattern(pressedButtonName,
-						"D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/pentadecathlon.gif");
+				createGifPattern(pressedButtonName, "resources/pentadecathlon.gif");
 				break;
 			case "Glider":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/glider.gif");
+				createGifPattern(pressedButtonName, "resources/glider.gif");
 				break;
 			case "LWSS":
-				createGifPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/LWSS.gif");
+				createGifPattern(pressedButtonName, "resources/LWSS.gif");
 				break;
 			case "Gosper glider gun":
-				creatImgPattern(pressedButtonName, "D:/workplace/GameOfLife/Game-Of-Life-LJ-DR/resources/breeder.png");
+				creatImgPattern(pressedButtonName, "resources/breeder.png");
 				break;
 			case "Show grid":
 				createGridPattern();
@@ -304,9 +305,9 @@ public class PatternsDialog extends JDialog {
 		private void createGridPattern() {
 			customPattern = patternFactory.createCustomPattern(centerJPanel.getGrid());
 			currentPattern = customPattern.createPattern();
-			
+
 			centerJPanel.removeAll();
-			
+
 			centerJPanel.add(centerJPanel.getGrid());
 			centerJPanel.revalidate();
 			centerJPanel.repaint();

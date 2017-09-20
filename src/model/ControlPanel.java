@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -47,10 +48,9 @@ public class ControlPanel extends JPanel {
 		setBackground(Const.WHITE);
 
 		this.frame = frame;
-		
+
 		addComponentsToPanel();
 		addActionListeners();
-		setBackground(Color.WHITE);
 
 		// setFocusable(true);
 		// addHotkeys();
@@ -62,7 +62,7 @@ public class ControlPanel extends JPanel {
 
 		this.frame = frame;
 		this.panelWidth = panelWidth;
-		
+
 		addComponentsToPanel();
 		addActionListeners();
 		addKeybindings();
@@ -73,7 +73,6 @@ public class ControlPanel extends JPanel {
 		return new Dimension(panelWidth, panelHeight);
 	}
 
-	// private methods for look and feel
 	private void createSlider() {
 		stepSpeedSlider.setMinimum(SPEED_MIN);
 		stepSpeedSlider.setMaximum(SPEED_MAX);
@@ -167,9 +166,9 @@ public class ControlPanel extends JPanel {
 			}
 		});
 	}
-  
+
 	@Deprecated
-	private void addHotkeys() {
+	void addHotkeys() {
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -255,6 +254,7 @@ public class ControlPanel extends JPanel {
 	}
 
 	public void exitButtonAction() {
-		frame.dispose(); // System.exit(0);
+		frame.dispose();
+		// System.exit(0);
 	}
 }
