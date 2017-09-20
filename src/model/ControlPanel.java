@@ -1,9 +1,7 @@
 package model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -46,7 +44,10 @@ public class ControlPanel extends JPanel {
 	private JSlider stepSpeedSlider = new JSlider();
 
 	public ControlPanel(GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
+		
 		addComponentsToPanel();
 		addActionListeners();
 		setBackground(Color.WHITE);
@@ -57,14 +58,13 @@ public class ControlPanel extends JPanel {
 	}
 
 	public ControlPanel(int panelWidth, GridFrame frame) {
+		setBackground(Const.WHITE);
+
 		this.frame = frame;
 		this.panelWidth = panelWidth;
+		
 		addComponentsToPanel();
 		addActionListeners();
-		setBackground(Color.WHITE);
-
-		// setFocusable(true);
-		// addHotkeys();
 		addKeybindings();
 	}
 
@@ -81,12 +81,12 @@ public class ControlPanel extends JPanel {
 		stepSpeedSlider.setPaintTicks(true);
 		stepSpeedSlider.setPaintLabels(true);
 		stepSpeedSlider.setValue(SPEED_INIT);
-		stepSpeedSlider.setBackground(Color.WHITE);
+		stepSpeedSlider.setBackground(Const.WHITE);
 	}
 
 	private void customizeButton(JButton b) {
 		b.setBackground(Const.MAT_BLUE);
-		b.setForeground(Color.WHITE);
+		b.setForeground(Const.WHITE);
 		b.setFocusPainted(false);
 		b.setFont(new Font("Tahoma", Font.BOLD, 12));
 	}
@@ -97,17 +97,14 @@ public class ControlPanel extends JPanel {
 		customizeButton(stopButton);
 		customizeButton(clearScreenButton);
 		customizeButton(closeAppButton);
+		createSlider();
 
 		add(stepButton);
 		add(startButton);
 		add(stopButton);
 		add(clearScreenButton);
 		add(closeAppButton);
-		createSlider();
-		// add(sliderLabel);
 		add(stepSpeedSlider);
-
-		// setBackground(Color.WHITE);
 	}
 
 	private void addActionListeners() {
@@ -170,7 +167,7 @@ public class ControlPanel extends JPanel {
 			}
 		});
 	}
-
+  
 	@Deprecated
 	private void addHotkeys() {
 		addKeyListener(new KeyListener() {
