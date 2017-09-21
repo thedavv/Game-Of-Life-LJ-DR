@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Creates a Loaf object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Loaf implements Pattern ,ImagePattern{
 
 	@Override

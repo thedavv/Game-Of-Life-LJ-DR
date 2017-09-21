@@ -2,8 +2,19 @@ package dialog.patterns;
 
 import model.GridComponent;
 
+/**
+ * Factory Class that creates {@link GifPattern}, {@link ImagePattern} and
+ * {@link Pattern} patterns
+ */
 public class PatternFactory {
 
+	/**
+	 * creates object type ImagePattern from image patterns
+	 * 
+	 * @param patternName
+	 *            is the name of pattern
+	 * @return new pattern type ImagePattern
+	 */
 	public ImagePattern createImagePattern(String patternName) {
 		switch (patternName) {
 		case "Block":
@@ -23,6 +34,13 @@ public class PatternFactory {
 		}
 	}
 
+	/**
+	 * Creates pattern that is oscillator based
+	 * 
+	 * @param patternName
+	 *            is the name of pattern
+	 * @return new GifPattern
+	 */
 	public GifPattern createGifPattern(String patternName) {
 		switch (patternName) {
 		case "Blinker":
@@ -44,7 +62,14 @@ public class PatternFactory {
 		}
 	}
 
-	public Pattern createCustomPattern(GridComponent grid){
+	/**
+	 * Creates a CustomPattern object
+	 * 
+	 * @param grid
+	 *            is the grid where pattern is painted
+	 * @return new Custom pattern object
+	 */
+	public Pattern createCustomPattern(GridComponent grid) {
 		return new CustomPatten(grid);
 	}
 }

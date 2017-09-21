@@ -455,6 +455,9 @@ public class PatternsDialog extends JDialog {
 			switch (actionCommand) {
 			case "Close":
 				getDialogInstance().setVisible(false);
+				centerJPanel.getGrid().resetGrid(centerJPanel.getGrid().getSqGrid());
+				centerJPanel.removeAll();
+				currentPattern = null;
 				break;
 			case "Store":
 				if (currentPattern != null) {
