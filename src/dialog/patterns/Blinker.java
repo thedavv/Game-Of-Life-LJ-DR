@@ -1,13 +1,15 @@
 package dialog.patterns;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/**
+ * Creates a Blinker object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Blinker implements Pattern, GifPattern {
 
 	public List<Integer[]> createPattern() {

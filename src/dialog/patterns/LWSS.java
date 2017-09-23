@@ -6,6 +6,10 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/**
+ * Creates a LWSS object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class LWSS implements Pattern, GifPattern {
 
 	@Override

@@ -19,7 +19,7 @@ public class GridFrame extends JFrame {
 	private GridComponent gridJComponent = new GridComponent(120, 70);
 	private ControlPanel controlPanel = new ControlPanel(600, this);
 	private JPanel gridPanel = new JPanel();
-	private Box box = new Box(BoxLayout.Y_AXIS);
+	Box box = new Box(BoxLayout.Y_AXIS);
 
 	// TODO zmenit nazov
 	private PatternsDialog patternDialog = new PatternsDialog(gridJComponent);
@@ -90,6 +90,6 @@ public class GridFrame extends JFrame {
 
 	// G + S
 	public GridComponent getGridC() {
-		return gridJComponent;
+		return gridComponent;
 	}
 }

@@ -166,7 +166,7 @@ public class ControlPanel extends JPanel {
 			}
 		});
 	}
-
+  
 	@Deprecated
 	void addHotkeys() {
 		addKeyListener(new KeyListener() {
@@ -254,7 +254,6 @@ public class ControlPanel extends JPanel {
 	}
 
 	public void exitButtonAction() {
-		// frame.dispose();
 		System.exit(0);
 	}
 }

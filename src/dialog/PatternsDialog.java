@@ -423,8 +423,8 @@ public class PatternsDialog extends JDialog {
 	}
 
 	/**
-	 * This class is used to create BottomPanel and its buttons buttons. Buttons
-	 * are ordered with Box layout. Buttons commit or return to main frame
+	 * This class is used to create BottomPanel and its buttons. Buttons are
+	 * ordered with Box layout. Buttons commit or return to main frame
 	 */
 	class BottomPanel extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 4111518793729191748L;
@@ -457,6 +457,9 @@ public class PatternsDialog extends JDialog {
 			switch (actionCommand) {
 			case "Close":
 				getDialogInstance().setVisible(false);
+				centerJPanel.getGrid().resetGrid(centerJPanel.getGrid().getSqGrid());
+				centerJPanel.removeAll();
+				currentPattern = null;
 				break;
 			case "Store":
 				if (currentPattern != null) {
