@@ -6,6 +6,10 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/**
+ * Creates a Toad object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Toad implements Pattern, GifPattern {
 
 	@Override

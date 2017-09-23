@@ -360,6 +360,11 @@ public class GridComponent extends JComponent {
 			} else if (currentSquare != null && currentSquare.isAlive() && SwingUtilities.isRightMouseButton(e)) {
 				currentSquare.setAlive(false);
 			}
+			if (currentSquare != null && frame != null) {
+				frame.statusPanel.mouseX = currentSquare.getCoorX();
+				frame.statusPanel.mouseY = currentSquare.getCoorY();
+				frame.statusPanel.updateMouseCoors();
+			}
 			repaint();
 		}
 	}

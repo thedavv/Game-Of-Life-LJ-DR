@@ -11,7 +11,7 @@ TASK:
 - (Mostly DONE)prerobit feel a look gridu na faru menej tahajucu oci/ kazdych 5 odriadkovat
 - dat Scroll Pannel na GridComponent
   (DONE) nastavit nepridavanie veci ak je pusteny start
-- // neskor dokoncit bonusove ulohy
+- (DONE)bonusova uloha paterns 
 
 - layuot vylepsit
 	- (DONE) 5x riadkov bola hurba ciara
@@ -31,6 +31,8 @@ TASK:
 
 
 CHANGELOG:
+
+- 19/09 - added Dialog for patterns
 - 14/09 
 	- added alignment for gridC (to stay in centre)
 	- added hotkeys for the base buttons (TODO: needs to remove ALT modifier)

@@ -169,7 +169,7 @@ public class ControlPanel extends JPanel {
 			}
 		});
 	}
-
+  
 	@Deprecated
 	void addHotkeys() {
 		addKeyListener(new KeyListener() {

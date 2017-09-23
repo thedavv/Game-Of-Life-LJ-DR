@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Creates a Tub object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Tub implements Pattern, ImagePattern {
 
 	@Override

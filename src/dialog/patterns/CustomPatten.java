@@ -6,6 +6,10 @@ import java.util.List;
 import model.GridComponent;
 import model.LifeSquare;
 
+/**
+ * Creates a CustomPatten object and has method createPattern that stores the
+ * positions of active squares on GridComponent created
+ */
 public class CustomPatten implements Pattern {
 	private GridComponent gridComponent;
 
@@ -24,9 +28,9 @@ public class CustomPatten implements Pattern {
 			}
 		}
 		if (storedPatternPositons.isEmpty()) {
-			storedPatternPositons.add(new Integer[] {0 , 0});
+			storedPatternPositons.add(new Integer[] { 0, 0 });
 		}
-		
+
 		return storedPatternPositons;
 	}
 }

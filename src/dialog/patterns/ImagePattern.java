@@ -3,7 +3,10 @@ package dialog.patterns;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public interface ImagePattern extends Pattern{
+/**
+ * All patterns that are Image patterns must implement this interface
+ */
+public interface ImagePattern extends Pattern {
 	/**
 	 * Returns representation of current pattern in Image form
 	 * 

@@ -17,15 +17,16 @@ public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	// TODO is public needed?
-	private GridComponent gridJComponent = new GridComponent(120, 70, this);
+	private GridComponent gridComponent = new GridComponent(120, 70, this);
 	private ControlPanel controlPanel = new ControlPanel(600, this);
 	private JPanel gridPanel = new JPanel();
+
 	private Box gridBox = new Box(BoxLayout.Y_AXIS);
 	private Box southBox = new Box(BoxLayout.Y_AXIS);
 	public StatusPanel statusPanel = new StatusPanel();
 
 	// TODO zmenit nazov
-	private PatternsDialog patternDialog = new PatternsDialog(gridJComponent);
+	private PatternsDialog patternDialog = new PatternsDialog(gridComponent);
 	// create menu components
 	private JMenuBar jMenuBar = new JMenuBar();
 	private JMenu optionsJMenu = new JMenu("Options");
@@ -51,7 +52,7 @@ public class GridFrame extends JFrame {
 
 		// add(controlPanel, BorderLayout.SOUTH);
 		add(southBox, BorderLayout.SOUTH);
-		gridPanel.add(gridJComponent);
+		gridPanel.add(gridComponent);
 		gridBox.add(Box.createVerticalGlue());
 		gridBox.add(gridPanel);
 		add(gridBox, BorderLayout.CENTER);
@@ -78,7 +79,7 @@ public class GridFrame extends JFrame {
 
 		removeStoredPatternJMenuItem.setMnemonic(KeyEvent.VK_R);
 		removeStoredPatternJMenuItem.setToolTipText("Removes current stored pattern");
-		removeStoredPatternJMenuItem.addActionListener(e -> gridJComponent.getStoredPatternPositons().clear());
+		removeStoredPatternJMenuItem.addActionListener(e -> gridComponent.getStoredPatternPositons().clear());
 
 		patternsMenu.add(patternsJMenuItem);
 		patternsMenu.add(removeStoredPatternJMenuItem);
@@ -105,6 +106,6 @@ public class GridFrame extends JFrame {
 
 	// G + S
 	public GridComponent getGridC() {
-		return gridJComponent;
+		return gridComponent;
 	}
 }

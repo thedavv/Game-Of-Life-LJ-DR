@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Creates a Boat object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Boat implements Pattern, ImagePattern {
 
 	@Override

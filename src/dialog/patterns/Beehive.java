@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-
+/**
+ * Creates a Beehive object and has method createPattern that stores the
+ * positions of active squares
+ */
 public class Beehive implements Pattern, ImagePattern{
 
 	@Override
