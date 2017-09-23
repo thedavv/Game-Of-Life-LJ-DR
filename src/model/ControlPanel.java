@@ -254,7 +254,7 @@ public class ControlPanel extends JPanel {
 	}
 
 	public void exitButtonAction() {
-		frame.dispose();
-		// System.exit(0);
+		// frame.dispose();
+		System.exit(0);
 	}
 }
