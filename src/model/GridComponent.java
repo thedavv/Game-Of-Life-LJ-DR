@@ -9,8 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -275,24 +273,28 @@ public class GridComponent extends JComponent {
 
 		// change active square from grid to inactive and remove active square
 		// from active squares when clicked 2+ times
-		@Override
-		public void mouseClicked(MouseEvent e) {
+		// @Override
+		// public void mouseClicked(MouseEvent e) {
 
-			currentSquare = findSquare(e.getPoint());
-			if (currentSquare != null && currentSquare.isAlive() && e.getClickCount() >= 2) {
-				currentSquare.setAlive(false);
-			}
-			repaint();
-		}
+		// currentSquare = findSquare(e.getPoint());
+		// if (currentSquare != null && currentSquare.isAlive() &&
+		// e.getClickCount() >= 2) {
+		// currentSquare.setAlive(false);
+		// }
+		// repaint();
+		// }
 
 		// set activyty to presed title and add active square to actives
 		@Override
 		public void mousePressed(MouseEvent e) {
 			currentSquare = findSquare(e.getPoint());
 			// no patern stored
-			if (currentSquare != null && !currentSquare.isAlive()
-					&& (storedPatternPositons == null || storedPatternPositons.isEmpty())) {
-				currentSquare.setAlive(true);
+			if (currentSquare != null && (storedPatternPositons == null || storedPatternPositons.isEmpty())) {
+				if (SwingUtilities.isLeftMouseButton(e) && !currentSquare.isAlive()) {
+					currentSquare.setAlive(true);
+				} else if (SwingUtilities.isRightMouseButton(e) && currentSquare.isAlive()) {
+					currentSquare.setAlive(false);
+				}
 				// pattern is stored
 			} else if (storedPatternPositons != null || !storedPatternPositons.isEmpty()) {
 				for (Integer[] arrayList : storedPatternPositons) {

@@ -18,9 +18,7 @@ public enum Const {
 	public final static Color SILVER = new Color(192, 192, 192);
 	public final static Color DIM_GRAY = new Color(105, 105, 105);
 	public final static Color STEEL_GRAY = new Color(77, 136, 153);
-	public final static Color BLURRY_WOOD = new Color(222,184,135);
+	public final static Color BLURRY_WOOD = new Color(222, 184, 135);
 	public final static Color WHITE = Color.WHITE;
-	
 
-	// public final static Color lightGray = new Color(192, 192, 192);
 }

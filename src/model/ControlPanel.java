@@ -3,6 +3,8 @@ package model;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -46,10 +48,9 @@ public class ControlPanel extends JPanel {
 		setBackground(Const.WHITE);
 
 		this.frame = frame;
-		
+
 		addComponentsToPanel();
 		addActionListeners();
-		setBackground(Const.WHITE);
 
 		// setFocusable(true);
 		// addHotkeys();
@@ -61,7 +62,7 @@ public class ControlPanel extends JPanel {
 
 		this.frame = frame;
 		this.panelWidth = panelWidth;
-		
+
 		addComponentsToPanel();
 		addActionListeners();
 		addKeybindings();
@@ -72,7 +73,6 @@ public class ControlPanel extends JPanel {
 		return new Dimension(panelWidth, panelHeight);
 	}
 
-	// private methods for look and feel
 	private void createSlider() {
 		stepSpeedSlider.setMinimum(SPEED_MIN);
 		stepSpeedSlider.setMaximum(SPEED_MAX);
@@ -163,6 +163,44 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				exitButtonAction();
+			}
+		});
+	}
+  
+	@Deprecated
+	void addHotkeys() {
+		addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_E) {
+					if (stepButton.isEnabled()) {
+						stepButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_R) {
+					if (startButton.isEnabled()) {
+						startButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					stopButtonAction();
+				}
+				if (e.getKeyCode() == KeyEvent.VK_C) {
+					if (clearScreenButton.isEnabled()) {
+						clearButtonAction();
+					}
+				}
+				if (e.getKeyCode() == KeyEvent.VK_X) {
+					exitButtonAction();
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
 			}
 		});
 	}

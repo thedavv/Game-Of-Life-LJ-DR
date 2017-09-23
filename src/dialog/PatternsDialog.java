@@ -119,6 +119,7 @@ public class PatternsDialog extends JDialog {
 		button.setBackground(Const.MAT_BLUE);
 		button.setForeground(Color.WHITE);
 		button.setFocusPainted(false);
+		// TODO export font into Const
 		button.setFont(new Font("Tahoma", Font.BOLD, 12));
 		// for flow
 		button.setPreferredSize(new Dimension(BUTTON_X_LENGHT, BUTTON_Y_LENGHT));
@@ -186,6 +187,7 @@ public class PatternsDialog extends JDialog {
 			leftPanelButtonsHashTable.put(patternNames.get(4), customPatterns);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			// TODO alter color
 			setBackground(Const.BLURRY_WOOD);
 
 			// create buttons
