@@ -24,11 +24,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import consts.Const;
 import dialog.patterns.GifPattern;
 import dialog.patterns.ImagePattern;
 import dialog.patterns.Pattern;
 import dialog.patterns.PatternFactory;
-import model.Const;
 import model.GridComponent;
 
 /**
@@ -104,6 +104,7 @@ public class PatternsDialog extends JDialog {
 
 		add(container);
 		pack();
+		setLocationRelativeTo(null);
 
 	}
 
@@ -491,7 +492,8 @@ public class PatternsDialog extends JDialog {
 		private static final long serialVersionUID = 4699926243224863908L;
 		private final static int DEFAULT_WIDTH = 300;
 		private final static int DEFAULT_HEIGHT = 300;
-		private GridComponent gridOfLifeSquares = new GridComponent(30, 30);
+		private GridComponent gridOfLifeSquares = new GridComponent(30, 30, null);
+		// TODO null right above may cause trouble
 
 		CenterPanel() {
 			setBackground(Const.BLURRY_WOOD);

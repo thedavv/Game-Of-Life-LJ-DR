@@ -14,6 +14,8 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import consts.Const;
+
 public class GridComponent extends JComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -24,6 +26,7 @@ public class GridComponent extends JComponent {
 	private int width;
 	private int height;
 	private int sideLength;
+	private GridFrame frame;
 
 	private ArrayList<ArrayList<LifeSquare>> sqGrid;
 	private ArrayList<ArrayList<LifeSquare>> sqGridTemp;
@@ -68,7 +71,8 @@ public class GridComponent extends JComponent {
 	 * @param sizeY
 	 *            number of tiles in the vertical axis
 	 */
-	public GridComponent(int sizeX, int sizeY) {
+	public GridComponent(int sizeX, int sizeY, GridFrame frame) {
+		this.frame = frame;
 		sideLength = DEFAULT_SQUARE_SIZE;
 		// + 1 needed to show some edge lines
 		width = (sizeX * sideLength) + 1;
@@ -178,6 +182,22 @@ public class GridComponent extends JComponent {
 				} catch (IndexOutOfBoundsException e) {
 					// catches if the lsq is on one of the edges of the grid
 					// do nothing (no square exists at such a position)
+				}
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Returns the number of alive cells in this grid.
+	 */
+	public int numOfAliveCells() {
+		int count = 0;
+
+		for (ArrayList<LifeSquare> array : sqGrid) {
+			for (LifeSquare lsq : array) {
+				if (lsq.isAlive()) {
+					count++;
 				}
 			}
 		}
@@ -305,6 +325,14 @@ public class GridComponent extends JComponent {
 			repaint();
 		}
 
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if (frame != null) {
+				frame.statusPanel.aliveCellCount = numOfAliveCells();
+				frame.statusPanel.updateCellCount();
+			}
+		}
+
 		// if mouse moves to an live square croshair changes
 		@Override
 		public void mouseMoved(MouseEvent e) {
@@ -314,6 +342,12 @@ public class GridComponent extends JComponent {
 				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 			} else {
 				setCursor(Cursor.getDefaultCursor());
+			}
+
+			if (currentSquare != null && frame != null) {
+				frame.statusPanel.mouseX = currentSquare.getCoorX();
+				frame.statusPanel.mouseY = currentSquare.getCoorY();
+				frame.statusPanel.updateMouseCoors();
 			}
 		}
 

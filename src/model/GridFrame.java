@@ -16,10 +16,13 @@ import dialog.PatternsDialog;
 public class GridFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private GridComponent gridJComponent = new GridComponent(120, 70);
+	// TODO is public needed?
+	private GridComponent gridJComponent = new GridComponent(120, 70, this);
 	private ControlPanel controlPanel = new ControlPanel(600, this);
 	private JPanel gridPanel = new JPanel();
-	private Box box = new Box(BoxLayout.Y_AXIS);
+	private Box gridBox = new Box(BoxLayout.Y_AXIS);
+	private Box southBox = new Box(BoxLayout.Y_AXIS);
+	public StatusPanel statusPanel = new StatusPanel();
 
 	// TODO zmenit nazov
 	private PatternsDialog patternDialog = new PatternsDialog(gridJComponent);
@@ -33,6 +36,7 @@ public class GridFrame extends JFrame {
 
 	public GridFrame() {
 		addMenu();
+		addSouthPanel();
 
 		// Box box = new Box(BoxLayout.Y_AXIS);
 		// box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -45,11 +49,12 @@ public class GridFrame extends JFrame {
 		// X add(grigJComponent, BorderLayout.CENTER);
 		// X add(controlJPanel, BorderLayout.SOUTH);
 
-		add(controlPanel, BorderLayout.SOUTH);
+		// add(controlPanel, BorderLayout.SOUTH);
+		add(southBox, BorderLayout.SOUTH);
 		gridPanel.add(gridJComponent);
-		add(box, BorderLayout.CENTER);
-		box.add(Box.createVerticalGlue());
-		box.add(gridPanel);
+		gridBox.add(Box.createVerticalGlue());
+		gridBox.add(gridPanel);
+		add(gridBox, BorderLayout.CENTER);
 
 		pack();
 		setTitle("Game of Life");
@@ -63,12 +68,11 @@ public class GridFrame extends JFrame {
 	// creates a menu with sub menus
 	// sets MenuBar for frame
 	private void addMenu() {
-
-		exitJMenuItem.setMnemonic(KeyEvent.VK_W);
+		exitJMenuItem.setMnemonic(KeyEvent.VK_E);
 		exitJMenuItem.setToolTipText("Exits the application");
 		exitJMenuItem.addActionListener(e -> System.exit(0));
 
-		patternsJMenuItem.setMnemonic(KeyEvent.VK_P);
+		patternsJMenuItem.setMnemonic(KeyEvent.VK_C);
 		patternsJMenuItem.setToolTipText("Opens Pattern chooser dialog");
 		patternsJMenuItem.addActionListener(e -> patternDialog.setVisible(true));
 
@@ -78,7 +82,8 @@ public class GridFrame extends JFrame {
 
 		patternsMenu.add(patternsJMenuItem);
 		patternsMenu.add(removeStoredPatternJMenuItem);
-		patternsJMenuItem.setMnemonic(KeyEvent.VK_N);
+		patternsMenu.setMnemonic(KeyEvent.VK_N);
+
 		optionsJMenu.add(exitJMenuItem);
 		optionsJMenu.setMnemonic(KeyEvent.VK_O);
 
@@ -86,6 +91,16 @@ public class GridFrame extends JFrame {
 		jMenuBar.add(patternsMenu);
 
 		setJMenuBar(jMenuBar);
+	}
+
+	private void addSouthPanel() {
+		southBox.add(controlPanel);
+		southBox.add(statusPanel);
+
+		// bar1.setSize(10, statusPanel.getHeight());
+		// statusPanel.setBackground(Const.PALE_GRAY);
+		// statusPanel.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+
 	}
 
 	// G + S

@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.KeyStroke;
 
+import consts.Const;
+
 public class ControlPanel extends JPanel {
 	private static final long serialVersionUID = -8071333801420726916L;
 	// panel constants
@@ -31,6 +33,7 @@ public class ControlPanel extends JPanel {
 	private int panelHeight = DEFAULT_HEIGHT;
 	private GridFrame frame;
 	private boolean startPressed = false;
+	// TODO may need to be moved elsewhere
 	private int numOfSteps = 1;
 
 	// buttons
@@ -215,6 +218,12 @@ public class ControlPanel extends JPanel {
 			@Override
 			public void run() {
 				while (startPressed) {
+					// TODO figure this out
+					frame.statusPanel.cycleCount++;
+					frame.statusPanel.updateCountText();
+					frame.statusPanel.aliveCellCount = frame.getGridC().numOfAliveCells();
+					frame.statusPanel.updateCellCount();
+
 					gc.createNextGeneration(gc.getSqGrid(), gc.getSqGridTemp());
 					gc.setNextGenerationAsCurrentGeneration(gc.getSqGrid(), gc.getSqGridTemp());
 					gc.resetGrid(gc.getSqGridTemp());
@@ -237,6 +246,10 @@ public class ControlPanel extends JPanel {
 			gc.resetGrid(gc.getSqGridTemp());
 			gc.repaint();
 		}
+		frame.statusPanel.cycleCount += numOfSteps;
+		frame.statusPanel.updateCountText();
+		frame.statusPanel.aliveCellCount = frame.getGridC().numOfAliveCells();
+		frame.statusPanel.updateCellCount();
 	}
 
 	public void stopButtonAction() {
@@ -254,7 +267,14 @@ public class ControlPanel extends JPanel {
 	}
 
 	public void exitButtonAction() {
-		// frame.dispose();
 		System.exit(0);
+	}
+
+	public int getNumOfSteps() {
+		return numOfSteps;
+	}
+
+	public void setNumOfSteps(int stepSize) {
+		this.numOfSteps = stepSize;
 	}
 }

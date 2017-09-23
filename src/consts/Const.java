@@ -1,4 +1,4 @@
-package model;
+package consts;
 
 import java.awt.Color;
 
